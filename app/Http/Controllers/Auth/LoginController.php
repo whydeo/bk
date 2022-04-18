@@ -37,4 +37,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // protected function authenticated(Request $request, $user)
+    // {
+    //     if($user->hasRole('admin')){
+    //         return redirect()->route('admin.dashboard');
+    //     }elseif($user->hasRole('resepsionis')){
+    //         return redirect()->route('resepsionis.dashboard');
+    //     }
+
+    //     return redirect()->route('tamu.home');
+    // }
 }
