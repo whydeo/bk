@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\gurucontroller;
+use App\Http\Controllers\SiswaController;
 
 
 /*
@@ -24,3 +25,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('guru', 'guruController')->middleware('ceklevel:bk');
+Route::resource('Siswa', 'SiswaController')->middleware('ceklevel:bk');
+Route::post('siswa/index',[App\Http\Controllers\SiswaController::class, 'import'])->name('import');
+
