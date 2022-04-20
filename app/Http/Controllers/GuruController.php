@@ -21,7 +21,7 @@ class GuruController extends Controller
     {
         //   dd($peng);
     return view('guru.index',[
-        'peng'=> guru::with('mapels','kelas')->latest()->get()]
+        'peng'=> guru::all()]
 
 );
     }
@@ -70,7 +70,7 @@ class GuruController extends Controller
 
             DB::table('guru_has_user')->insert($datasave);
 
-            return redirect()->route('Guru.index')->with('success','Data Berhasil di Input');
+            return redirect()->route('guru.index')->with('success','Data Berhasil di Input');
 
 
             }

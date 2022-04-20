@@ -39,8 +39,8 @@
                       <tr>
                           <td>{{ ++$i }}</td>
                       <td>{{$guru->nama}}</td>
-                      <td>{{$guru->map->mapel}}</td>
-                      <td>{{$guru->kel->kelas}}</td>
+                      <td>{{$guru->kelas}}</td>
+                      <td>{{$guru->mapel}}</td>
 
                         {{-- <td class="d-flex justify-content-center">
                           <a href="{{ route('guru.edit', $guru->id) }}" class="btn btn-sm btn-primary mr-2 mb-2">
