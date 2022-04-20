@@ -21,8 +21,54 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswa = siswa::paginate(30);
-        return view('siswa/index',compact('siswa'));
+        $siswas = [];
+        return view('siswa/index',compact('siswas'));
+    }
+    public function cari(Request $request)
+    {
+        $kelas =$request->kelas;
+        $jurusan =$request->jurusan;
+        if ($kelas==1) {
+            $kel ='X';
+        }
+        elseif ($kelas==2) {
+            $kel ='XI';
+        }
+        elseif ($kelas==3) {
+            $kel ='XII';
+        }
+        else{
+
+        }
+
+        if ($jurusan==  1) {
+            $jur ='Rekayasa Perangkat Lunak';
+        }
+        elseif ($jurusan==2) {
+            $jur ='Multimedia';
+        }
+        elseif ($jurusan==3) {
+            $jur ='Bisnis Konstruksi Dan Properti';
+        }
+        elseif ($jurusan==4) {
+            $jur ='Teknik Kendaraan Ringan dan Otomotif';
+        }
+        elseif ($jurusan==5) {
+            $jur ='Tata Boga';
+        }
+        else{
+
+        }
+
+        // $siswas = DB::table('siswas')->where([['kelas', $kel],['jurusan', $jur]])->get();
+        $siswas = DB::table('siswas')
+                ->where('kelas',$kel)
+                ->where('jurusan',$jur)
+                ->get();
+
+        // dd($siswas);
+        // $siswa = siswa::paginate(30);
+        return view('siswa/index',compact('siswas'));
     }
     public function import(Request $request){
         // dd($request);

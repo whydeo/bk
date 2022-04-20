@@ -12,7 +12,7 @@ class kelas extends Model
     use HasFactory;
     public $table = 'kelas';
     protected $primaryKey = 'id';
-    protected $fillable = ['kelas','wkelas'];
+    protected $fillable = ['kelas'];
     public function guru()
     {
         return $this->hasMany(guru::class);

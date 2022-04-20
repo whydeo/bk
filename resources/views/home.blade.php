@@ -1,6 +1,4 @@
 @extends('layouts.dasboard')
-
-
 @section('content')
-<H1>HALLO</H1>
+<H1>HALshdbshjdLO</H1>
       @endsection

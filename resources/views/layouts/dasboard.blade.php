@@ -45,10 +45,15 @@
                             @if(auth()->user()->level=="bk")
                             <div class="navbar-nav mr-4" >
                                 <a class="nav-link active" aria-current="page" href="{{route('guru.index')}}"><i class="bi bi-activity"></i> Guru </a>
-                                <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-activity"></i> Siswa </a>
+                                <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-activity"></i> Siswa</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('Pembina.index')}}"><i class="bi bi-activity"></i> Pembina</a>
+                                {{-- <a class="nav-link active" aria-current="page" href="{{route('Nilai.index')}}"><i class="bi bi-activity"></i> Pembina</a> --}}
+
                             </div>
-                            
-                            
+                            @elseif(auth()->user()->level=="guru")
+                            <a class="nav-link active" aria-current="page" href="{{route('Nilai.index')}}"><i class="bi bi-activity"></i> Nilai  </a>
+                            <a class="nav-link active" aria-current="page" href="{{route('Nilai.create')}}"><i class="bi bi-activity"></i> Nilai create </a>
+                            </div>
                             @endif
 
                     </ul>

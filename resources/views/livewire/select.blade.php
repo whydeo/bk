@@ -9,7 +9,7 @@
                     <option value="{{ $kelass->id }}">{{ $kelass->kelas }}</option>
                 @endforeach
             </select>
-        </div>
+    </div>
     </div>
 
     @if (!is_null($selectedState))

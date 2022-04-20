@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\models\mapel;
+use App\models\kelas;
 class guru extends Model
 {
     use HasFactory;

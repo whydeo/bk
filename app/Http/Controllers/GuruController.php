@@ -19,11 +19,9 @@ class GuruController extends Controller
      */
     public function index()
     {
-        //   dd($peng);
-    return view('guru.index',[
-        'peng'=> guru::with('mapels','kelas')->latest()->get()]
-
-);
+        return view('guru.index',[
+            'peng'=>guru::with('mapel','kelas')->latest()->get()
+        ]);
     }
 
 
@@ -46,7 +44,7 @@ class GuruController extends Controller
 
         $user = User::create([
             'name' => $request['name'],
-            'username' => $request['username'],
+            // 'username' => $request['username'],
             'email' => $request['email'],
             'level' => $request['level'],
             'password' => Hash::make($request['password']),
@@ -55,14 +53,14 @@ class GuruController extends Controller
         $user->assignRole('bk')->get();
 
         guru::create([
-            'nama'=> $request['username'],
-            'kelas'=>$request['kelas'],
-            'mapel'=>$request['mapel'],
+            'nama'=> $request['name'],
+            'id_kelas'=>$request['kelas'],
+            'id_mapel'=>$request['mapel'],
 
         ]);
 
-            $id_user = DB::table('users')->where('username', $request['username'])->value('id');
-            $id_guru = DB::table('guru')->where('nama',$request['username'])->value('id_guru');
+            $id_user = DB::table('users')->where('name', $request['name'])->value('id');
+            $id_guru = DB::table('guru')->where('nama',$request['name'])->value('id_guru');
             $datasave = [
                 'id_user'=>$id_user,
                 'id_guru'=>$id_guru,
@@ -143,6 +141,11 @@ $request->validate([
 
     public function destroy($id)
     {
-        //
+        // $data =DB::table('guru')
+        // ->leftJoin('users','guru.id', '=','users.user_id')
+        // ->where('users.id', $id);
+        // $delete = guru::find($id);
+        // $delete->delete();
+        // return redirect('guru.index')->with('deleted','Kamar Theresia deleted successfully');
     }
     }
