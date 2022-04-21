@@ -6,7 +6,7 @@
 </H1> --}}
 <div class="container">
     <div class="row">
-        {{-- <form action="{{route('import')}}" method="post" enctype="multipart/form-data"> --}}
+        <form action="{{route('import')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="input-group mb-3">
                 <input type="file" name="file" class="form-control" placeholder="Recipient's username"

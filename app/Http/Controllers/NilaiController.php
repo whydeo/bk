@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\NilaiImport;
 class NilaiController extends Controller
 {
     /**
@@ -16,11 +17,11 @@ class NilaiController extends Controller
         return view('nilai/index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function import(Request $request) 
+        {
+            // dd($request);
+            Excel::import(new NilaiImport, $request->file);
+        }
     public function create()
     {
         //
