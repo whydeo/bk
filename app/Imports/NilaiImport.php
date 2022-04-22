@@ -24,10 +24,10 @@ class NilaiImport implements  ToCollection
 $user='soldeo';
 $kategori='sekolah';
 $i =0;
-foreach ($rows as  $row) 
+foreach ($rows as  $row)
 {
             // dd($rows[$i+5][4]);
-           
+
             nilaisikap::create([
                 'nama_siswa' => $rows[$i+5][1],
                 'id_poin' => 1,
@@ -35,8 +35,8 @@ foreach ($rows as  $row)
                 'kategori' => $kategori,
                 'nilai' => $rows[$i+5][4],
             ]);
-        
-            
+
+
             nilaisikap::create([
                 'nama_siswa' => $row[2],
                 'id_poin' => 2,
@@ -214,7 +214,7 @@ foreach ($rows as  $row)
             ]);
             $i++;
         }
-        
+
     }
     // public function headingRow(): int
     // {
