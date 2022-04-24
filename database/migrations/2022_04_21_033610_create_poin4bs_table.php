@@ -16,7 +16,11 @@ class CreatePoin4bsTable extends Migration
         Schema::create('poin4bs', function (Blueprint $table) {
             $table->id('id_poin');
             $table->ForeignId('id_karakter');
-            $table->string('poin');
+            $table->string('Berbudi');
+            $table->string('Berkualitas');
+            $table->string('Berdaya');
+            $table->string('Berhasil');
+            
             $table->timestamps();
         });
     }

@@ -80,9 +80,11 @@ class GuruController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(request $request, $id)
     {
-        //
+        // dd($request);
+        $gurus = guru::find($id);
+        return redirect()->route('guru.index',compact('gurus'));
     }
 
     /**

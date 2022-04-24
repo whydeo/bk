@@ -27,7 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('guru', 'guruController')->middleware('ceklevel:bk');
 Route::resource('Siswa', 'SiswaController')->middleware('ceklevel:bk');
 Route::resource('Pembina', 'PembinaController')->middleware('ceklevel:bk');
-Route::delete('guru/destroy/{id}',[App\Http\Controllers\guruController::class, 'destroy'])->name('destroy');
+Route::get('guru/show/{id}',[App\Http\Controllers\guruController::class, 'show'])->name('show');
 Route::post('siswa/index',[App\Http\Controllers\SiswaController::class, 'import'])->name('import');
 Route::post('Nilai/index',[App\Http\Controllers\NilaiController::class, 'import'])->name('imports');
 Route::get('siswa/index',[App\Http\Controllers\SiswaController::class, 'cari'])->name('cari');
