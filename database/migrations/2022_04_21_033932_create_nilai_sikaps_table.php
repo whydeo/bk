@@ -15,7 +15,7 @@ class CreateNilaiSikapsTable extends Migration
     {
         Schema::create('nilai_sikaps', function (Blueprint $table) {
             $table->id('id_nilaisikap');
-            $table->int('id_poin');
+            $table->ForeignId('id_poin');
             $table->string('nilai');
             $table->string('penilai');
             $table->string('kategori');

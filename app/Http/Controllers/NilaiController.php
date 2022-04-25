@@ -10,6 +10,8 @@ use App\Imports\SiswaImport;
 use App\Http\Controllers\Controller;
 use App\Models\nilaisikap;
 use App\Models\Siswa;
+use Models;
+use App\Models\karakter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -109,24 +111,32 @@ class NilaiController extends Controller
             foreach ($data4 as $key => $value) {
                 $datas4['Berhasil'][$key] =array_sum($value)/7;
             }
+            //  dd($datas4);
+            $datam=$datas1['totalnama'];
+            // $result = DB::table('siswas')->where('nama_siswa',$datas1['totalnama'])->get();
 
-            // dd($datas1['totalnama']);
-
-// $nama=['Abner Abyater Sanam'];
-            // foreach ($datas1 as $key => $value) {
-                $id_siswa=DB::table('siswas')->where('nama_siswa',$datas1['totalnama'])->get()->toArray();
-
-
-
-            // }
-            $nilai= DB::table('poin4bs')->insert([
-                "Berkualitas"=>$datas1,
-                "Berbudi"=>$datas2,
-                "Berdaya"=>$datas3,
-                "Berhasil"=>$datas4,
-                'id_siswa'=>$id_siswa,
-            ]);
-
+            $id_nama = [];
+            foreach ($datam as $key => $data) {
+               $id_namas['nama'][$key]= array_push($id_nama, DB::table('siswas')->where('nama_siswa',$data)->value('id_siswa'));
+                
+            }
+            $karakter= new karakter();
+            $karakter->Berkualitas=$datas1['Berkualitas'];
+            $karakter->Berbudi=$datas2['Berbudi'];
+            $karakter->Berdaya=$datas3['Berdaya'];
+            $karakter->Berhasil=$datas4['Berhasil'];
+            $karakter->id_siswa=$id_namas['nama'];
+            $karakter->save();
+ 
+            // DB::table('point4bs')->insert([
+            // $karakter= new karakter(),
+            // $karakter->Berkualitas=$datas1['Berkualitas'],
+            // $karakter->Berbudi=$datas2['Berbudi'],
+            // $karakter->Berdaya=$datas3['Berdaya'],
+            // $karakter->Berhasil=$datas4['Berhasil'],
+            // $karakter->id_siswa=$id_namas['nama'],
+            // ]);
+               
 
                 return redirect()->route('Siswa.index');
         }
