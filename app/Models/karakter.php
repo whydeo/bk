@@ -8,7 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class karakter extends Model
 {
     use HasFactory;
-    protected $table ='point4bs';
+    protected $table ='poin4bs';
     protected $primary ='id_poin';
-    protected $fillable =['id_siswa','Berkualitas','Berbudi','Berdaya','Berhasil'];
+    protected $fillable =['id_siswa','id_guru','Berkualitas','Berbudi','Berdaya','Berhasil'];
+
+    public function guru()
+    {
+        return $this->belongsTo(guru::class,'id_guru');
+    }
+    public function siswa()
+    {
+        return $this->belongsTo(siswa::class,'id_siswa');
+    }
+
 }

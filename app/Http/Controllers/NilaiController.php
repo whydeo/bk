@@ -10,7 +10,8 @@ use App\Imports\SiswaImport;
 use App\Http\Controllers\Controller;
 use App\Models\nilaisikap;
 use App\Models\Siswa;
-use Models;
+use App\Models\Guru;
+// use Models;
 use App\Models\karakter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -26,7 +27,17 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        return view('nilai/index');
+        return view('nilai.index',[
+            'data'=>karakter::with('guru','siswa')->latest()->get()
+        ]);
+        // $data = karakter::join('siswas', 'poin4bs.id_siswa', '=', 'siswas.id_siswa')
+        //         ->leftjoin('gurus','poin4bs.id_guru','=','gurus.id_guru')
+        //       ->where('id_siswas')
+        //       ->select('poin4bs.*');
+        //     //   ->all();
+        //     dd($data);
+        //       return view('nilai.index',compact('data'));
+
     }
 
     // public function import(Request $request)
@@ -37,16 +48,31 @@ class NilaiController extends Controller
     //      return redirect()->back();
     //     }
         public function import(Request $request){
-            $this->validate($request, [
-                'file' => 'required|mimes:csv,xls,xlsx'
-            ]);
-            $file = $request->file('file');
-            $spreadsheet = IOFactory::load($file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet();
-            $row_limit    = $sheet->getHighestDataRow();
-            $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range( 6, $row_limit );
-            $column_range = range( 'AC', $column_limit );
+
+
+
+
+            $request->validate([
+                    'file' => 'required|mimes:csv,xls,xlsx'
+                ]);
+                $file = $request->file('file');
+                $spreadsheet = IOFactory::load($file->getRealPath());
+                $sheet        = $spreadsheet->getActiveSheet();
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 6, $row_limit );
+                $column_range = range( 'AC', $column_limit );
+
+                // DB::table('poin4bs')->insert([
+                //     'id_karakter' => 1,
+                //     'Berkualitas' => 4,
+                //     'Berbudi' => 3,
+                //     'Berdaya' => 2,
+                //     'Berhasil' => 4,
+                // ]);
+
+
+
             foreach ( $row_range as $i=> $row ) {
 
                 $data1[] = [
@@ -93,6 +119,7 @@ class NilaiController extends Controller
                 ];
             }
 
+
             $datas1=[];
             foreach ($data1 as $key => $value) {
                  $datas1['Berkualitas'][$key] =array_sum($value)/5;
@@ -118,16 +145,32 @@ class NilaiController extends Controller
             $id_nama = [];
             foreach ($datam as $key => $data) {
                $id_namas['nama'][$key]= array_push($id_nama, DB::table('siswas')->where('nama_siswa',$data)->value('id_siswa'));
-                
             }
+
+            // dd($id_namas['nama']);
+
+
+            // DB::table('poin4bs')->insert([
+            //     'id_karakter' => $id_namas['nama'],
+            //     'Berkualitas' => $datas1['Berkualitas'],
+            //     'Berbudi' => $datas2['Berbudi'],
+            //     'Berdaya' => $datas3['Berdaya'],
+            //     'Berhasil' => $datas4['Berhasil'],
+            // ]);
+
             $karakter= new karakter();
             $karakter->Berkualitas=$datas1['Berkualitas'];
+            // $karakter->save();
+// dd($karakter);
+
             $karakter->Berbudi=$datas2['Berbudi'];
             $karakter->Berdaya=$datas3['Berdaya'];
             $karakter->Berhasil=$datas4['Berhasil'];
             $karakter->id_siswa=$id_namas['nama'];
-            $karakter->save();
- 
+            $karakter->Berkualitas=$datas1['Berkualitas'];
+            // $karakter->save();
+
+
             // DB::table('point4bs')->insert([
             // $karakter= new karakter(),
             // $karakter->Berkualitas=$datas1['Berkualitas'],
@@ -136,9 +179,37 @@ class NilaiController extends Controller
             // $karakter->Berhasil=$datas4['Berhasil'],
             // $karakter->id_siswa=$id_namas['nama'],
             // ]);
-               
 
-                return redirect()->route('Siswa.index');
+                $this->input($karakter);
+        }
+
+        public function input($karakter){
+
+            $email= auth()->user()->name;
+            $guru=Guru::where('nama',$email)->value('id_guru');
+            // dd($guru);
+            for ($i=0; $i < count($karakter['Berkualitas']) ; $i++) {
+
+                // $tgl = date("Y-m-d H:i:s");
+                // $date=date_create($tgl);
+                // $hari = date_format($date,"d");
+
+                // dd($hari);
+
+                 DB::table('poin4bs')->insert([
+                 'id_guru'=>$guru,
+                'id_siswa' => $karakter['id_siswa'][$i],
+                'Berkualitas' => $karakter['Berkualitas'][$i],
+                'Berbudi' => $karakter['Berbudi'][$i],
+                'Berdaya' => $karakter['Berdaya'][$i],
+                'Berhasil' => $karakter['Berhasil'][$i],
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+            // dd($tes);
+        }
+       return redirect()->back();
         }
     public function create()
     {

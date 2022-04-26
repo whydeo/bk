@@ -46,14 +46,19 @@
                                     <td>{{ $guru->kelas->kelas }}</td>
                                     <td>{{ $guru->mapel->nama_mapel }}</td>
                                     {{-- <td>
-                                        <button type="button" class="btn btn-primary" href="{{ url('show', ['id'=>$guru->id]) }}" data-toggle="modal" data-target="#exampleModal2">
+                                        <button type="button" class="btn btn-primary"
+                                            href="{{ url('show', ['id'=>$guru->id]) }}" data-toggle="modal"
+                                            data-target="#exampleModal2">
                                             Show
                                         </button>
                                     </td> --}}
-<td>
-    <a href="#" value="{{ url('show', ['id'=>$guru->id]) }} " class="btn btn-xs btn-info modalMd"data-toggle="modal" data-target="#exampleModal2"><span class="glyphicon glyphicon-eye-open">jshd</span></a>
+                                    <td>
+                                        <a href="#" value="{{ url('show', ['id'=>$guru->id]) }} "
+                                            class="btn btn-xs btn-info modalMd" data-toggle="modal"
+                                            data-target="#exampleModal2"><span
+                                                class="glyphicon glyphicon-eye-open">jshd</span></a>
 
-</td>
+                                    </td>
                                     {{-- <a href="{{ route('show', $guru->id) }}"
                                         class="btn btn-outline-warning">Show</a> --}}
                                     {{-- <td>
@@ -133,7 +138,7 @@
                             <div class="form-group">
                                 <label for="name">Nama</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="masukkan nama lengkap">
+                                    placeholder="masukkan nama lengkap" required>
                                 {{-- <div class="form-group">
                                     <label for="username">nama lengkap</label>
                                     <input type="text" class="form-control" name="username" id="name"
@@ -142,12 +147,12 @@
                                 <div class="form-group">
                                     <label for="email">email</label>
                                     <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="masukkan email">
+                                        placeholder="masukkan email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">password</label>
                                     <input type="password" class="form-control" name="password" id="password"
-                                        placeholder="masukkan password">
+                                        placeholder="masukkan password" required>
                                 </div>
                                 <p class="m-0">level</p>
                                 <div class="form-check form-check-inline">
@@ -173,8 +178,8 @@
         </div>
 
     </div>
-   <script>
+    <script>
 
-   </script>
+    </script>
     @livewireScripts
     @endsection

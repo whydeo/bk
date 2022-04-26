@@ -10,7 +10,7 @@
                     @csrf
                     <div class="input-group mb-3">
                         <input type="file" name="file" class="form-control" placeholder="Recipient's username"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            aria-label="Recipient's username" aria-describedby="button-addon2" required>
                         <button class="btn btn-primary" type="submit" id="button-addon2">Import</button>
                     </div>
                 </form>

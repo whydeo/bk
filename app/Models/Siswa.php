@@ -11,4 +11,9 @@ class Siswa extends Model
     protected $table = "siswas";
     protected $primary='id_siswa';
     protected $fillable = ['nama_siswa','nis','kelas','jurusan','kelamin'];
+    
+       public function nilai()
+    {
+        return $this->hasMany(nilai::class);
+    }
 }

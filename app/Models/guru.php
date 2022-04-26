@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\models\mapel;
 use App\models\kelas;
+use App\models\guru;
 class guru extends Model
 {
     use HasFactory;
@@ -19,5 +20,9 @@ class guru extends Model
     public function kelas()
     {
         return $this->belongsTo(kelas::class,'id_kelas');
+    }
+    public function nilai()
+    {
+        return $this->hasMany(nilai::class);
     }
 }
