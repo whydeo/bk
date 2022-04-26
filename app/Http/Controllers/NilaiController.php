@@ -27,17 +27,12 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        return view('nilai.index',[
-            'data'=>karakter::with('guru','siswa')->latest()->get()
-        ]);
-        // $data = karakter::join('siswas', 'poin4bs.id_siswa', '=', 'siswas.id_siswa')
-        //         ->leftjoin('gurus','poin4bs.id_guru','=','gurus.id_guru')
-        //       ->where('id_siswas')
-        //       ->select('poin4bs.*');
-        //     //   ->all();
-        //     dd($data);
-        //       return view('nilai.index',compact('data'));
-
+        $data= karakter::with('guru','siswa')->latest()->get();
+        // dd($data);
+        return view('nilai.index',compact ('data'));
+        //     'data'=>karakter::with('guru','siswa')->latest()->get()
+        // ]);
+       
     }
 
     // public function import(Request $request)
@@ -144,7 +139,7 @@ class NilaiController extends Controller
 
             $id_nama = [];
             foreach ($datam as $key => $data) {
-               $id_namas['nama'][$key]= array_push($id_nama, DB::table('siswas')->where('nama_siswa',$data)->value('id_siswa'));
+               $id_namas['nama'][$key]= array_push($id_nama, DB::table('siswas')->where('nama_siswa',$data)->value('id'));
             }
 
             // dd($id_namas['nama']);
@@ -187,15 +182,7 @@ class NilaiController extends Controller
 
             $email= auth()->user()->name;
             $guru=Guru::where('nama',$email)->value('id_guru');
-            // dd($guru);
             for ($i=0; $i < count($karakter['Berkualitas']) ; $i++) {
-
-                // $tgl = date("Y-m-d H:i:s");
-                // $date=date_create($tgl);
-                // $hari = date_format($date,"d");
-
-                // dd($hari);
-
                  DB::table('poin4bs')->insert([
                  'id_guru'=>$guru,
                 'id_siswa' => $karakter['id_siswa'][$i],
@@ -206,8 +193,12 @@ class NilaiController extends Controller
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]);
-
-            // dd($tes);
+            $rata=[];
+            foreach ($karakter as $key => $value) {
+                $rata['rata'][$key] =array_sum($value);
+                // $datas1['totalnama'][$key] =$value['nama_siswa'];
+            }
+            dd($karakter);
         }
        return redirect()->back();
         }
@@ -224,7 +215,7 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

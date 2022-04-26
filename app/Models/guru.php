@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\models\mapel;
 use App\models\kelas;
 use App\models\guru;
+use App\models\nilai;
 class guru extends Model
 {
     use HasFactory;

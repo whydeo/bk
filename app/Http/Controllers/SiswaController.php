@@ -80,7 +80,7 @@ class SiswaController extends Controller
         $sheet        = $spreadsheet->getActiveSheet();
         $row_limit    = $sheet->getHighestDataRow();
         $column_limit = $sheet->getHighestDataColumn();
-        $row_range    = range( 1, $row_limit );
+        $row_range    = range( 2, $row_limit );
         $column_range = range( 'F', $column_limit );
         foreach ( $row_range as $row ) {
             $data[] = [
