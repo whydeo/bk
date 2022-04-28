@@ -30,5 +30,6 @@ Route::resource('Pembina', 'PembinaController')->middleware('ceklevel:bk');
 Route::get('guru/show/{id}',[App\Http\Controllers\guruController::class, 'show'])->name('show');
 Route::post('siswa/index',[App\Http\Controllers\SiswaController::class, 'import'])->name('import');
 Route::post('Nilai/index',[App\Http\Controllers\NilaiController::class, 'import'])->name('imports');
+// Route::post('Nilai/index',[App\Http\Controllers\NilaiController::class, 'nilai'])->name('nilais');
 Route::get('siswa/index',[App\Http\Controllers\SiswaController::class, 'cari'])->name('cari');
-Route::resource('Nilai', 'NilaiController')->middleware('ceklevel:guru');
+Route::resource('Nilai', 'NilaiController')->middleware('ceklevel:guru,pembina');

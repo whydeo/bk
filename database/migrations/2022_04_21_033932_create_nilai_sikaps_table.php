@@ -14,12 +14,14 @@ class CreateNilaiSikapsTable extends Migration
     public function up()
     {
         Schema::create('nilai_sikaps', function (Blueprint $table) {
-            $table->id('id_nilaisikap');
+            $table->id('id');
             $table->ForeignId('id_poin');
+            // $table->ForeignId('id_siswa');
             $table->string('nilai');
-            $table->string('penilai');
-            $table->string('kategori');
-            $table->string('nama_siswa');
+            // $table->string('kategori');
+            // $table->string('penilai');
+            $table->string('keterangan')->nullable();
+            $table->string('followup')->nullable();
             $table->timestamps();
         });
     }

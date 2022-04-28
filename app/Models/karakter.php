@@ -16,6 +16,10 @@ class karakter extends Model
     {
         return $this->belongsTo(guru::class,'id_guru');
     }
+    public function User()
+    {
+        return $this->belongsTo(guru::class,'id_penilai');
+    }
     public function siswa()
     {
         return $this->belongsTo(siswa::class,'id_siswa');
