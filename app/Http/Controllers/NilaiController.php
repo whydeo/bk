@@ -28,6 +28,13 @@ class NilaiController extends Controller
      */
     public function index()
     {
+        // $data = Karakter::with('guru','siswa')
+        // ->select(DB::raw('AVG(Berkualitas) as Berdaya,Berbudi,Berhasil'),('id_poin'),
+        // //  DB::raw('SUM(Berbudi) as Berhasil')
+        // )
+        // ->groupBy('id_siswa')
+        // ->latest()
+        // ->get();
         $data= karakter::with('guru','siswa')->latest()->get();
         // dd($data);
         return view('nilai.index',compact ('data'));
@@ -293,9 +300,7 @@ class NilaiController extends Controller
     // }
     public function create()
     {
-        // $rata = Karakter::select(
-        //     DB::raw('AVG(Berkualitas) as Berdaya,Berbudi,Berhasil'),('id_poin')
-        //     // DB::raw('SUM(Berbudi) as Berhasil'),
+        // $rata = Karakter::select(DB::raw('AVG(Berkualitas) as Berdaya,Berbudi,Berhasil'),('id_poin'), DB::raw('SUM(Berbudi) as Berhasil')
         //   )
         //   ->groupBy('id_siswa')
         //   ->get();
@@ -305,11 +310,11 @@ class NilaiController extends Controller
     }
 
 
-    public function nilai(Request $request)
-    {
+    // public function nilai(Request $request)
+    // {
 
-        return view('nilai/nilai');
-    }
+    //     return view('nilai/nilai');
+    // }
     public function store(Request $request)
     {
 
