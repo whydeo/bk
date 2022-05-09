@@ -13,9 +13,9 @@
         </form>
  <form action="" method='post' enctype='multipart/form-data'>
                 @csrf
-    <table class="table table-striped table-hover">
+    <table class="table  table-hover">
         <thead>
-            <tr>
+            <tr class="bg-primary" style="color:white">
                 <th scope="col">#</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Nis</th>
@@ -37,15 +37,15 @@
             <tr>
                 <th scope="row">{{ ++$no }}</th>
               
-                {{-- <td>{{ $siswa->siswa}}</td> --}}
+                {{-- <td>{{ $siswa->siswa[$key]['id'] }}</td> --}}
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{ $siswa->Berkualitas }}</td>
-                <td>{{ $siswa->Berbudi }}</td>
-                <td>{{ $siswa->Berdaya }}</td>
-                <td>{{ $siswa->Berhasil }}</td>
-                <td> {{ ($siswa->Berkualitas+ $siswa->Berbudi+$siswa->Berdaya+$siswa->Berkualitas)/ 4 }}
+                <td>{{ round($siswa->Berkualitas) }}</td>
+                <td>{{ round($siswa->Berbudi)  }}</td>
+                <td>{{ round($siswa->Berdaya) }}</td>
+                <td>{{ round($siswa->Berhasil) }}</td>
+                <td> {{ round(($siswa->Berkualitas+ $siswa->Berbudi+$siswa->Berdaya+$siswa->Berkualitas)/ 4) }}
                 </td>
                 @if(($siswa->Berkualitas+ $siswa->Berbudi+$siswa->Berdaya+$siswa->Berkualitas)/ 4 <= 3 )
                                 
