@@ -21,19 +21,18 @@
             @php
             $no = 0;
             @endphp
-                @forelse ($datas as $data )
+                @forelse ($data as $siswa )
             <tr>
                 <th scope="row">{{ ++$no }}</th>
-                {{-- <td>{{ $data->data}}</td> --}}
-                {{-- <td>{{ $data->data}}</td> --}}
+                {{-- <td>{{ $siswa->siswa}}</td> --}}
+                {{-- <td>{{ $siswa->siswa}}</td> --}}
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{ $data->nama }}</td>
-                <td>{{ $data->kelas }}</td>
-                <td>{{ $data->jurusan }}</td>
-                <td>{{ $data->keterangan }}</td>
-                <td>{{ $data->folowup }}</td>
+                <td>{{ $siswa->Berkualitas }}</td>
+                <td>{{ $siswa->Berbudi }}</td>
+                <td>{{ $siswa->Berdaya }}</td>
+                <td>{{ $siswa->Berhasil }}</td>
             </tr>
             @empty
             <td colspan="10" class="table-active text-center">Tidak Ada Data</td>

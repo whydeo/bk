@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\gurucontroller;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -30,6 +31,13 @@ Route::resource('Pembina', 'PembinaController')->middleware('ceklevel:bk');
 Route::get('guru/show/{id}',[App\Http\Controllers\guruController::class, 'show'])->name('show');
 Route::post('siswa/index',[App\Http\Controllers\SiswaController::class, 'import'])->name('import');
 Route::post('Nilai/index',[App\Http\Controllers\NilaiController::class, 'import'])->name('imports');
-// Route::post('Nilai/index',[App\Http\Controllers\NilaiController::class, 'nilai'])->name('nilais');
+Route::Post('Nilai/create',[App\Http\Controllers\NilaiController::class, 'nilairata'])->name('nilairata');
 Route::get('siswa/index',[App\Http\Controllers\SiswaController::class, 'cari'])->name('cari');
-Route::resource('Nilai', 'NilaiController')->middleware('ceklevel:guru,pembina');
+Route::resource('Nilai', 'NilaiController')->middleware('ceklevel:guru,paspa,paspi');
+
+Route::resource('admin', 'AdminController')->middleware('ceklevel:bk');
+Route::get('carijurusan', [AdminController::class, 'carijurusan'])->name('carijurusan');
+Route::get('carikelas', [AdminController::class, 'carikelas'])->name('carikelas');
+Route::get('caribulan', [AdminController::class, 'caribulan'])->name('caribulan');
+Route::get('carijk', [AdminController::class, 'carijk'])->name('carijk');
+Route::get('nilairatas', [AdminController::class, 'nilairatas'])->name('nilairatas');

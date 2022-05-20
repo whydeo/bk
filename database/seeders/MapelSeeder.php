@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\mapel;
+use App\Models\Mapel;
 class MapelSeeder extends Seeder
 {
     /**
@@ -134,6 +134,53 @@ class MapelSeeder extends Seeder
             'id_kelas' => 2,
             'nama_mapel' => 'Produktif'
         ]);
+        $bk1 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Produktif'
+        ]);
+        $bk2 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Bahasa Indonesia'
+        ]);
+        $bk3 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Bahasa Inggris'
+        ]);
+        $bk4 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Bahasa Jawa'
+        ]);
+        $bk5 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'PPKn'
+        ]);
+        $bk6 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'PKWu'
+        ]);
+        $bk7 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Pendidikan Agama Kristen'
+        ]);
+        $bk8 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Pendidikan Agama Islam'
+        ]);
+        $bk9 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Pendidikan Agama Khatolik'
+        ]);
+        $bk10 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Pendidikan Agama Hindu'
+        ]);
+        $bk11 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Matematika'
+        ]);
+        $bk12 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'Bimbingan Konseling'
+        ]);
     }
-
 }

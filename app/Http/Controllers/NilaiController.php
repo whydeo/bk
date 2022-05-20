@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\NilaiImport;
-use App\Imports\SiswaImport;
+// use App\Imports\NilaiImport;
+// use App\Imports\SiswaImport;
 // use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Models\nilaisikap;
@@ -13,6 +13,9 @@ use App\Models\Siswa;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\nilaiawal;
+use App\Models\nilairata;
+use App\Models\banding;
+use Carbon\Carbon;
 // use Models;
 use App\Models\karakter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -36,13 +39,17 @@ class NilaiController extends Controller
         // ->groupBy('id_siswa')
         // ->latest()
         // ->get();
-        $data= karakter::with('guru','siswa')->latest()->get();
+        // $data= karakter::with('guru','siswa')->latest()->get();
+        $user = auth()->user()->name;
+        $data= nilairata::get();
         // dd($data);
         return view('nilai.index',compact ('data'));
         //     'data'=>karakter::with('guru','siswa')->latest()->get()
         // ]);
 
     }
+
+
 
     // public function import(Request $request)
     //     {
@@ -67,13 +74,14 @@ class NilaiController extends Controller
                 $row_range    = range( 6, $row_limit );
                 $column_range = range( 'AC', $column_limit );
 
-  
+
 
 
             foreach ( $row_range as $i=> $row ) {
 
                 $data1[] = [
-                    'nama_siswa' =>$sheet->getCell( 'B' . $row )->getValue(),
+                    'nama_siswa' =>$sheet->getCell( 'A' . $row )->getValue(),
+                    'jk' =>$sheet->getCell( 'B' . $row )->getValue(),
                     'kelas' =>$sheet->getCell( 'C' . $row )->getValue(),
                     'jurusan' =>$sheet->getCell( 'D' . $row )->getValue(),
                     'n1' => $sheet->getCell( 'E' . $row )->getValue(),
@@ -111,8 +119,8 @@ class NilaiController extends Controller
                 ];
             }
             $inputan=[
-                
-                
+
+
             ];
 
             // foreach ($row_range as $key => $value) {
@@ -183,6 +191,7 @@ class NilaiController extends Controller
                 $datas1['totalnama'][$key] =$value['nama_siswa'];
                 $datas1['kelas'][$key] =$value['kelas'];
                 $datas1['jurusan'][$key] =$value['jurusan'];
+                $datas1['jk'][$key] =$value['jk'];
             }
             $datas2=[];
             foreach ($data2 as $key => $value) {
@@ -216,9 +225,10 @@ class NilaiController extends Controller
                 $datas4['n24'][$key] =$value['n24'];
                 $datas4['n25'][$key] =$value['n25'];
             }
-            
-            $inputan = nilaiawal::create([
+
+            $inputan = [
                 'nama'=>$datas1['totalnama'],
+                'jk'=>$datas1['jk'],
                 'kelas'=>$datas1['kelas'],
                 'jurusan'=>$datas1['jurusan'],
                 'n1'=>$datas1['n1'],
@@ -246,9 +256,9 @@ class NilaiController extends Controller
                 'n23'=>$datas4['n23'],
                 'n24'=>$datas4['n24'],
                 'n25'=>$datas4['n25'],
-            ]);
+            ];
             // $inputan = new nilaiawal;
-     
+
             // $inputan->save();
             // DB::table('nilaiawals')->insert($inputan);
             //  dd($inputan);
@@ -292,72 +302,149 @@ class NilaiController extends Controller
             // $karakter->Berhasil=$datas4['Berhasil'],
             // $karakter->id_siswa=$id_namas['nama'],
             // ]);
-           
+
                 // dd($inputan);
                 $this->input($karakter,$inputan);
+                $data = $inputan;
+                // dd($data)   ;
+                return view('nilai.create',compact('data'));
+
+
+
+
         }
-        public function nilai($inputan){
-      
 
-
-            // $nilai=nilaiawal::insert();
-            //  DB::table('nilaiawals')->insert($inputan);
-        }
-
-        public function input($karakter){
+        public function input($karakter,$inputan){
+            // dd($inputan);
 
             $email= auth()->user()->name;
             $lok= auth()->user()->level;
             if ($lok == 'guru') {
                 $lokasi='Sekolah';
             }
-            elseif($lok == 'pembina'){
+            elseif($lok == 'paspa'||'paspi'){
                 $lokasi='Asrama';
             }
             $guru=User::where('name',$email)->value('id');
             for ($i=0; $i < count($karakter['Berkualitas']) ; $i++) {
-                 DB::table('poin4bs')->insert([
-                 'id_penilai'=>$guru,
-                 'kategori'=>$lokasi,
-                'id_siswa' => $karakter['id_siswa'][$i],
-                'Berkualitas' => $karakter['Berkualitas'][$i],
-                'Berbudi' => $karakter['Berbudi'][$i],
-                'Berdaya' => $karakter['Berdaya'][$i],
-                'Berhasil' => $karakter['Berhasil'][$i],
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
-            // $rata = Karakter::select(
-            //     DB::raw('AVG(Berkualitas) as Berdaya,Berbudi,Berhasil'),('id_poin')
-            //     // DB::raw('SUM(Berbudi) as Berhasil'),
-            //   )
-            //   ->groupBy('id_siswa')
-            //   ->get();
+                DB::table('poin4bs')->insert([
+                    'id_penilai'=>$guru,
+                    'kategori'=>$lokasi,
+                    'id_siswa' => $karakter['id_siswa'][$i],
+                    // 'jk' => $karakter['jk'][$i],
+                    'Berkualitas' => $karakter['Berkualitas'][$i],
+                    'Berbudi' => $karakter['Berbudi'][$i],
+                    'Berdaya' => $karakter['Berdaya'][$i],
+                    'Berhasil' => $karakter['Berhasil'][$i],
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+            }
+            $users = Auth()->user()->name;
+            $user= auth()->user()->level;
+            $bln= Carbon::now()->isoFormat(' MMMM Y');
+            if ($user == 'guru') {
+                            $tes =$inputan['kelas'];
+                            $t =$inputan['jurusan'];
+                            $data = DB::table('bandings')
+                             ->where('kelas',$tes)
+                            ->where('jurusan',$t)
+                            ->value('id');
+                            $jmlsiswa=count($inputan['nama']);
+                            $kat = banding::find($data);
+                            // dd($data);
+                            $jml = $kat->banding + 1;
+                            $jmls = $kat->jml_siswa + $jmlsiswa;
 
-            //   dd($rata);
+                            $kat->update(['banding' => $jml,'jml_siswa'=>$jmls]);
+                            for ($i=0; $i < count($inputan['nama']) ; $i++){
+                                DB::table('nilaiawals')->insert([
+                                    'nama'=>$inputan['nama'][$i],
+                                    'id_banding'=>$data,
+                                    'jk'=>$inputan['jk'][$i],
+                                    'kelas'=>$inputan['kelas'][$i],
+                                    'jurusan'=>$inputan['jurusan'][$i],
+                                    'n1'=>$inputan['n1'][$i],
+                                    'n2'=>$inputan['n2'][$i],
+                                    'n3'=>$inputan['n3'][$i],
+                                    'n4'=>$inputan['n4'][$i],
+                                    'n5'=>$inputan['n5'][$i],
+                                    'n6'=>$inputan['n6'][$i],
+                                    'n7'=>$inputan['n7'][$i],
+                                    'n8'=>$inputan['n8'][$i],
+                                    'n9'=>$inputan['n9'][$i],
+                                    'n10'=>$inputan['n10'][$i],
+                                    'n11'=>$inputan['n11'][$i],
+                                    'n12'=>$inputan['n12'][$i],
+                                    'n13'=>$inputan['n13'][$i],
+                                    'n14'=>$inputan['n14'][$i],
+                                    'n15'=>$inputan['n15'][$i],
+                                    'n16'=>$inputan['n16'][$i],
+                                    'n17'=>$inputan['n17'][$i],
+                                    'n18'=>$inputan['n18'][$i],
+                                    'n19'=>$inputan['n19'][$i],
+                                    'n20'=>$inputan['n20'][$i],
+                                    'n21'=>$inputan['n21'][$i],
+                                    'n22'=>$inputan['n22'][$i],
+                                    'n23'=>$inputan['n23'][$i],
+                                    'n24'=>$inputan['n24'][$i],
+                                    'n25'=>$inputan['n25'][$i],
+                                    'penilai'=>$users,
+                                    'bulan'=>$bln,
 
-            // $ambil = Karakter::all();
 
-            // foreach ($ambil as $key => $value) {
+                                ]);
 
-            //     ];
-            // }
-            // for ($i=0; $i < $karakter['Berbudi']; $i++) {
-            // $tes ['Berkualitas'] = $karakter['Berkualitas'][$i];
-            // $tes ['Berbudi'] = $karakter['Berbudi'][$i];
-            // $tes ['Berdaya'] = $karakter['Berdaya'][$i];
-            // $tes ['Berhasil'] = $karakter['Berhasil'][$i];
-            // }
-            // $rata=[];
-            // foreach ($karakter as $key => $value) {
-            //     $rata['rata'][$key] =array_sum($value);
-            //     // $datas1['totalnama'][$key] =$value['nama_siswa'];
-            // }
-            //  dd($karakter);
-        }
-       return redirect()->route('Nilai.create');
-        // $this->input($rata);
-        }
+                            }
+                            }
+
+                            elseif ($user == 'paspa'||'paspi' ) {
+                                for ($i=0; $i < count($inputan['nama']) ; $i++){
+                                    DB::table('nilaiasramas')->insert([
+                                        'nama'=>$inputan['nama'][$i],
+                                        'jk'=>$inputan['jk'][$i   ],
+                                        'kelas'=>$inputan['kelas'][$i],
+                                        'jurusan'=>$inputan['jurusan'][$i],
+                                        'n1'=>$inputan['n1'][$i],
+                                        'n2'=>$inputan['n2'][$i],
+                                        'n3'=>$inputan['n3'][$i],
+                                        'n4'=>$inputan['n4'][$i],
+                                        'n5'=>$inputan['n5'][$i],
+                                        'n6'=>$inputan['n6'][$i],
+                                        'n7'=>$inputan['n7'][$i],
+                                        'n8'=>$inputan['n8'][$i],
+                                        'n9'=>$inputan['n9'][$i],
+                                        'n10'=>$inputan['n10'][$i],
+                                        'n11'=>$inputan['n11'][$i],
+                                        'n12'=>$inputan['n12'][$i],
+                                        'n13'=>$inputan['n13'][$i],
+                                        'n14'=>$inputan['n14'][$i],
+                                        'n15'=>$inputan['n15'][$i],
+                                        'n16'=>$inputan['n16'][$i],
+                                        'n17'=>$inputan['n17'][$i],
+                                        'n18'=>$inputan['n18'][$i],
+                                        'n19'=>$inputan['n19'][$i],
+                                        'n20'=>$inputan['n20'][$i],
+                                        'n21'=>$inputan['n21'][$i],
+                                        'n22'=>$inputan['n22'][$i],
+                                        'n23'=>$inputan['n23'][$i],
+                                        'n24'=>$inputan['n24'][$i],
+                                        'n25'=>$inputan['n25'][$i],
+                                        'penilai'=>$user,
+
+                                    ]);
+                                }
+                            }
+
+                        }
+
+                        // public function nilai($inputan){
+                        //     // dd($inputan);
+
+
+                        //     $nilai=nilaiawal::insert($inputan);
+                        //     //  DB::table('nilaiawals')->insert($inputan);
+                        // }
 
     // public function rata(){
 
@@ -369,27 +456,57 @@ class NilaiController extends Controller
         //   ->groupBy('id_siswa')
         //   ->get();
         //   dd($rata);
-        $data= karakter::with('guru','siswa')->latest()->get();
+        $data= nilaiawal::latest()->get();
           return view('nilai.create',compact('data'));
     }
 
 
-    // public function nilai(Request $request)
-    // {
+    public function nilairata(Request $request)
+    {
+        // $validate=([
+        //     'nama'=>$request,
+        //     'kelas'=>$request,
+        //     'jurusan'=>$request,
+        //     'keterangan'=>$request,
+        //     'folowup'=>$request,
+        // ]);
+        // dd($request);
+        $email= auth()->user()->name;
+        $lok= auth()->user()->level;
+        if ($lok == 'guru') {
+            $lokasi='Sekolah';
+        }
+        elseif($lok == 'paspa'||'paspi'){
+            $lokasi='Asrama';
+        }
+        $user = Auth()->user()->name;
+        // dd($user);
+        $month= Carbon::now()->isoFormat(' MMMM Y');
+        // dd($month);
+        for ($i=0; $i < count($request['nama']); $i++) {
+            DB::table('nilairatas')->insert([
+                'nama'=>$request['nama'][$i],
+                'kelas'=>$request['kelas'][$i],
+                'jurusan'=>$request['jurusan'][$i],
+                'keterangan'=>$request['keterangan'][$i],
+                'folowup'=>$request['folowup'][$i],
+                // 'id_nilaiawal'=>$request['id_nilaiawal'][$i],
+                'bulan'=>$month,
+                'penilai'=>$user,
+                'kategori'=>$lokasi,
+            ]);
+        }
 
-    //     return view('nilai/nilai');
-    // }
+
+        return redirect()->route('Nilai.index');
+    }
     public function store(Request $request)
     {
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show($id)
     {
         //

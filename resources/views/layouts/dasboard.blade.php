@@ -47,12 +47,13 @@
                                 <a class="nav-link active" aria-current="page" href="{{route('guru.index')}}"><i class="bi bi-activity"></i> Guru </a>
                                 <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-activity"></i> Siswa</a>
                                 <a class="nav-link active" aria-current="page" href="{{route('Pembina.index')}}"><i class="bi bi-activity"></i> Pembina</a>
-                                {{-- <a class="nav-link active" aria-current="page" href="{{route('Nilai.index')}}"><i class="bi bi-activity"></i> Pembina</a> --}}
+                                <a class="nav-link active" aria-current="page" href="{{route('admin.index')}}"><i class="bi bi-activity"></i> Daftar Kasus</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('nilairatas')}}"><i class="bi bi-activity"></i> Daftar Nilai</a>
 
                             </div>
-                            @elseif(auth()->user()->level=="guru")
+                            @elseif(auth()->user()->level=="guru"||"paspa"||"paspi")
                             <a class="nav-link active" aria-current="page" href="{{route('Nilai.index')}}"><i class="bi bi-activity"></i> Nilai  </a>
-                            <a class="nav-link active" aria-current="page" href="{{route('Nilai.create')}}"><i class="bi bi-activity"></i> Nilai create </a>
+                            {{-- <a class="nav-link active" aria-current="page" href="{{route('Nilai.create')}}"><i class="bi bi-activity"></i> Nilai create </a> --}}
                             </div>
                             @endif
 

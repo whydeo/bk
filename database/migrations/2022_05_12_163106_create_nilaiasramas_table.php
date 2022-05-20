@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNilaiawalsTable extends Migration
+class CreateNilaiasramasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateNilaiawalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('nilaiawals', function (Blueprint $table) {
-            $table->id('id_nawal');
-            $table->ForeignId('id_banding');
+        Schema::create('nilaiasramas', function (Blueprint $table) {
+            $table->id('id_nilai');
             $table->string('nama');
             $table->string('kelas');
             $table->string('jurusan');
@@ -57,6 +56,6 @@ class CreateNilaiawalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilaiawals');
+        Schema::dropIfExists('nilaiasramas');
     }
 }

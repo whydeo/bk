@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use app\models\guru;
 
-class nilaiawal extends Model
+class nilairata extends Model
 {
     use HasFactory;
-    protected $table ='nilaiawals';
-    protected $primary='id_nawal';
+    protected $table ='nilairatas';
+    protected $primary='id_nilai';
     protected $guard=[''];
 }
