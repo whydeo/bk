@@ -7,11 +7,12 @@ use App\Imports\SiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
+use App\Models\ratarata;
+use Carbon\carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\DB;
-
 class SiswaController extends Controller
 {
     /**
@@ -45,10 +46,10 @@ class SiswaController extends Controller
             $jur ='Rekayasa Perangkat Lunak';
         }
         elseif ($jurusan==2) {
-            $jur ='Multimedia';
+            $jur ='Bisnis Konstruksi Dan Properti';
         }
         elseif ($jurusan==3) {
-            $jur ='Bisnis Konstruksi Dan Properti';
+            $jur ='Multimedia';
         }
         elseif ($jurusan==4) {
             $jur ='Teknik Kendaraan Ringan dan Otomotif';
@@ -80,7 +81,7 @@ class SiswaController extends Controller
         $sheet        = $spreadsheet->getActiveSheet();
         $row_limit    = $sheet->getHighestDataRow();
         $column_limit = $sheet->getHighestDataColumn();
-        $row_range    = range( 2, $row_limit );
+        $row_range    = range( 1, $row_limit );
         $column_range = range( 'F', $column_limit );
         foreach ( $row_range as $row ) {
             $data[] = [
@@ -124,7 +125,30 @@ class SiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $ambil=Siswa::where('id',$id)->get();
+        $kell=$ambil[0]->nama_siswa;
+        // $jurr=$ambil[0]->jurusan;
+        // dd($ambil[0]->nama_siswa);
+        // $tampung = ratarata::where('nama',$ambil[0]->nama_siswa)->get();
+        $bln= Carbon::now()->isoFormat(' MMM ');
+                // dd($bln);
+        if ($bln == ' Jan ' || $bln == ' Feb ' || $bln == ' Mar '|| $bln == ' Apr ' || $bln == ' May ' || $bln == ' Jun ') {
+            $data = DB::table('rataratas')
+            ->where('nama',$kell)
+            // ->where('jurusan',$jurr)
+            ->get();
+            // dd($data);
+        }elseif ($bln == ' Jul ' || $bln == ' Aug ' || $bln == ' Sep '|| $bln == ' Oct ' || $bln == ' Nov ' || $bln == ' Dec ') {
+            $data = DB::table('semganjils')
+            ->where('nama',$kell)
+            // ->where('jurusan',$jurr)
+            ->get();
+        }
+
+        // dd($data[0]);
+        return view('siswa.rapot',compact('data'));
+
+
     }
 
     /**
@@ -147,7 +171,7 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 
     }
 
     /**

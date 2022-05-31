@@ -181,6 +181,7 @@
             $e <3 || $em <3 || $ayam <3 || $sas <3 || $dbj <3 || $jbf <3 || $kmfg <3 || $kdd <3|| $dnf <3 || $nsj <3 || $jsbd <3 || $hsdb <3  )
 
                         <input type="hidden" name="nama[]" value="{{$data['nama'][$i]}}">
+                        <input type="hidden" name="jk[]" value="{{$data['jk'][$i]}}">
                         <input type="hidden" name="kelas[]" value="{{$data['kelas'][$i]}}">
                         <input type="hidden" name="jurusan[]" value="{{$data['jurusan'][$i]}}">
                         <td><textarea name="keterangan[]" class="form-control" type="text" style="width: 300px"></textarea></td>

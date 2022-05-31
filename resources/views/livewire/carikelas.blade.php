@@ -1,14 +1,16 @@
 <div>
-    <div class="form-group row" style="margin-left:-10%;width:40%">
+    <div class="form-group row" style="margin-left:-8%;width:40%">
         <label for="state" class="col-md-4 col-form-label text-md-right">Kelas</label>
 
         <div class="col-md-6">
+
             <select wire:model="selectedState" class="form-control" name="kelas">
                 <option value="" selected>Choose Kelas</option>
                 @foreach($kelas as $kelass)
                     <option value="{{ $kelass->id }}">{{ $kelass->kelas }}</option>
                 @endforeach
             </select>
+
     </div>
     </div>
     @if (!is_null($selectedState))
@@ -23,6 +25,10 @@
                     @endforeach
                 </select>
             </div>
+
         </div>
+
     @endif
+
 </div>
+<div class="input-group-prepend">

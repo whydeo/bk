@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@livewireStyles
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -60,6 +60,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        @livewire('select')
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -74,4 +75,5 @@
         </div>
     </div>
 </div>
+@livewireScripts
 @endsection

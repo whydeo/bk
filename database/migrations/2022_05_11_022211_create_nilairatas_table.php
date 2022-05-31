@@ -22,6 +22,7 @@ class CreateNilairatasTable extends Migration
             $table->string('rata_rata');
             $table->string('keterangan');
             $table->string('folowup');
+            $table->string('jk');
             $table->string('bulan');
             $table->string('kategori');
             $table->string('penilai');

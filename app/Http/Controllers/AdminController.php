@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\nilairata;
 use App\Models\nilaiawal;
 use App\Models\ratarata;
+use App\Models\banding;
 use DB;
+use Carbon\Carbon;
 class AdminController extends Controller
 {
     /**
@@ -22,38 +24,56 @@ class AdminController extends Controller
         return view('admin.daftarksus',compact ('data'));
 
     }
-
-
     public function carijurusan(Request $request)
     {
         $keyword = $request->search;
 
-        $data = nilairata::where('jurusan', 'like', "%" . $keyword . "%")->paginate(5);
+        $data = nilairata::where('jurusan', 'like', "%" . $keyword . "%")->get();
         // dd($data);
         return view('admin.daftarksus',compact ('data'));
 
     }
+    public function carijsn(Request $request)
+    {
+        $keyword = $request->search;
+        // dd($keyword);
+        $data = ratarata::where('jurusan', 'like', "%" . $keyword . "%")->get();
+        // dd($data);
+        return view('admin.nilairata',compact ('data'));
 
+    }
     public function caribulan(Request $request)
     {
         $keyword = $request->search;
-
-        $data = nilairata::where('bulan', 'like', "%" . $keyword . "%")->paginate(5);
-        // dd($data);
+        // $keyword->format('y-m');
+        $bul=Carbon::parse($request->search)->isoformat('MMM');
+        // dd($bul);
+        $data = nilairata::where('bulan', 'like', "%" . $bul . "%")->get();
         return view('admin.daftarksus',compact ('data'));
+
+    }
+    public function cariblan(Request $request)
+    {
+        $keyword = $request->search;
+        // $keyword->format('y-m');
+        $bul=Carbon::parse($request->search)->isoformat(' MMM ');
+        // dd($bul);
+        $data = ratarata::where('bulan', 'like', "%" . $bul . "%")->get();
+        return view('admin.nilairata',compact ('data'));
 
     }
     public function carijk(Request $request)
     {
         $keyword = $request->search;
 
-        $data = nilairata::where('jk', 'like', "%" . $keyword . "%")->paginate(5);
+        $data = nilairata::where('jk', 'like', "%" . $keyword . "%")->get();
         // dd($data);
         return view('admin.daftarksus',compact ('data'));
 
     }
     public function carikelas(Request $request)
     {
+        // dd($request);
         $kelas =$request->kelas;
         $jurusan =$request->jurusan;
         if ($kelas==1) {
@@ -73,10 +93,10 @@ class AdminController extends Controller
             $jur ='Rekayasa Perangkat Lunak';
         }
         elseif ($jurusan==2) {
-            $jur ='Multimedia';
+            $jur ='Bisnis Konstruksi Dan Properti';
         }
         elseif ($jurusan==3) {
-            $jur ='Bisnis Konstruksi Dan Properti';
+            $jur ='Multimedia';
         }
         elseif ($jurusan==4) {
             $jur ='Teknik Kendaraan Ringan dan Otomotif';
@@ -97,296 +117,132 @@ class AdminController extends Controller
         return view('admin.daftarksus',compact('data'));
     }
 
-    public function nilairatas(){
-        $kel='XII';
-        $jur='MULTIMEDIA';
-        // $data= nilaiawal::where('kelas',$tes);
-        $data = DB::table('nilaiawals')
-                ->where('kelas',$kel)
-                // ->where('jurusan',$jur)
-                ->get();
-
-                // dd($data);
-                class Nilai {
-                    public $kumpulan;
-                }
-                for ($i=1; $i <= 25 ; $i++){
-                    $jml= DB::table('bandings')
-                    ->where('kelas',$kel)
-                    ->where('jurusan', $jur)
-                    ->value('jml_siswa');
-                    // dd($jml);
-                    $kumpulan.''.$i = [];
-                    for ($j=0; $j < $jml; $j++) {
-                        for ($h=0; $h < count($data) ; $h++) {
-                            $nilaike = 'n'.''.$i;
-                            if ($data[$h]->nama == $data[$j]->nama) {
-                                $rata2 = 0;
-                                $jmlnilaii = 0;
-
-                                $rata2 = $rata2 + $data[$h]->$nilaike;
-                                $jmlnilaii++;
-
-                                $rataakhir = $rata2 / $jmlnilaii;
-
-                            }
-                        }
-                        array_push($kumpulan, $rataakhir);
-                        // dd($nilai);
-                    }
-
-                // 'n1'=>$inputan['n1'][$i],
-                // 'n2'=>$inputan['n2'][$i],
-                // 'n3'=>$inputan['n3'][$i],
-                // 'n4'=>$inputan['n4'][$i],
-                // 'n5'=>$inputan['n5'][$i],
-                // 'n6'=>$inputan['n6'][$i],
-                // 'n7'=>$inputan['n7'][$i],
-                // 'n8'=>$inputan['n8'][$i],
-                // 'n9'=>$inputan['n9'][$i],
-                // 'n10'=>$inputan['n10'][$i],
-                // 'n11'=>$inputan['n11'][$i],
-                // 'n12'=>$inputan['n12'][$i],
-                // 'n13'=>$inputan['n13'][$i],
-                // 'n14'=>$inputan['n14'][$i],
-                // 'n15'=>$inputan['n15'][$i],
-                // 'n16'=>$inputan['n16'][$i],
-                // 'n17'=>$inputan['n17'][$i],
-                // 'n18'=>$inputan['n18'][$i],
-                // 'n19'=>$inputan['n19'][$i],
-                // 'n20'=>$inputan['n20'][$i],
-                // 'n21'=>$inputan['n21'][$i],
-                // 'n22'=>$inputan['n22'][$i],
-                // 'n23'=>$inputan['n23'][$i],
-                // 'n24'=>$inputan['n24'][$i],
-                // 'n25'=>$inputan['n25'][$i],
-                // 'penilai'=>$users,
-                // 'bulan'=>$bln,
+    public function nilai(Request $request){
+        $kelas =$request->kelas;
+        $jurusan =$request->jurusan;
 
 
-            // ]);
-
-
-        // $data= nilaiawal::get();
-        // dd($data);
-
-
-        // $datas1=[];
-        // foreach ($data as $key => $value) {
-        //     $tes=$value->kelas;
-        //     $t=$value->jurusan;
-        //     $data = DB::table('bandings')
-        //     ->where('kelas',$tes)
-        //     ->where('jurusan',$t)
-        //     ->value('banding');
-        //     $ta= banding::get();
-
-            // dd(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25);
-            //  $datas1['Berkualitas'][$key] =;
-            // if ($value->kelas == 'X' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK') {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     // $datas1['nama'][$key]=count($value->n1);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //     $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'X' && $value->jurusan == 'MULTIMEDIA' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'X' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'X' && $value->jurusan == 'TATABOGA' ){
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'X' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // if ($value->kelas == 'XI' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XI' && $value->jurusan == 'MULTIMEDIA' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XI' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XI' && $value->jurusan == 'TATABOGA' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XI' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // if ($value->kelas == 'XII' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     // $datas1['namat'][$key]=$value->n1;
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XII' && $value->jurusan == 'MULTIMEDIA' && $value->nama !== $value->nama) {
-
-            //     // $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['namas'][$key]=$value->n1;
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //     $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XII' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XII' && $value->jurusan == 'TATABOGA' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //     $datas1['bulan'][$key]=$value['bulan'];
-            // }
-            // elseif ($value->kelas == 'XII' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
-
-            //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
-            //     $datas1['nama'][$key]=$value['nama'];
-            //     $datas1['kelas'][$key]=$value['kelas'];
-            //     $datas1['jurusan'][$key]=$value['jurusan'];
-            //     $datas1['jk'][$key]=$value['jk'];
-            //      $datas1['bulan'][$key]=$value['bulan'];
-            // }
-
-
-
-
-
-        // }
-                // dd($datas1);
-
-
-        // for ($i=0; $i < count($data['nama']) ; $i++){
-        //     DB::table('nilaiasramas')->insert([
-        //         'nama'=>$data['nama'][$i],
-        //         'jk'=>$data['jk'][$i   ],
-        //         'kelas'=>$data['kelas'][$i],
-        //         'jurusan'=>$data['jurusan'][$i],
-        //         'n1'=>$data['n1'][$i],
-        //         'n2'=>$data['n2'][$i],
-        //         'n3'=>$data['n3'][$i],
-        //         'n4'=>$data['n4'][$i],
-        //         'n5'=>$data['n5'][$i],
-        //         'n6'=>$data['n6'][$i],
-        //         'n7'=>$data['n7'][$i],
-        //         'n8'=>$data['n8'][$i],
-        //         'n9'=>$data['n9'][$i],
-        //         'n10'=>$data['n10'][$i],
-        //         'n11'=>$data['n11'][$i],
-        //         'n12'=>$data['n12'][$i],
-        //         'n13'=>$data['n13'][$i],
-        //         'n14'=>$data['n14'][$i],
-        //         'n15'=>$data['n15'][$i],
-        //         'n16'=>$data['n16'][$i],
-        //         'n17'=>$data['n17'][$i],
-        //         'n18'=>$data['n18'][$i],
-        //         'n19'=>$data['n19'][$i],
-        //         'n20'=>$data['n20'][$i],
-        //         'n21'=>$data['n21'][$i],
-        //         'n22'=>$data['n22'][$i],
-        //         'n23'=>$data['n23'][$i],
-        //         'n24'=>$data['n24'][$i],
-        //         'n25'=>$data['n25'][$i],
-
-
-        //     ]);
-        // }
-        // for ($i=0; $i < count($datas1['nama']) ; $i++) {
-        //     DB::table('rataratas')->insert([
-        //         // dd($datas1['nama']);
-        //         // 'id_penilai'=>$guru,
-        //         // 'kategori'=>$lokasi,
-        //         'nama' => $datas1['nama'][$i],
-        //         'kelas' => $datas1['kelas'][$i],
-        //         'jk' => $datas1['jk'][$i],
-        //         'jurusan' => $datas1['jurusan'][$i],
-        //         'ratarata' => $datas1['rata'][$i],
-        //         'bulan' => $datas1['bulan'][$i],
-        //         // 'Berhasil' => $datas1['Berhasil'][$i],
-        //         'created_at' => date("Y-m-d H:i:s"),
-        //         'updated_at' => date("Y-m-d H:i:s")
-        //     ]);
-
-        //     $datam = ratarata::get();
-            // dd($datam);
+        if ($kelas==1) {
+            $kel ='X';
         }
-        dd($kumpulan1);
-        return view('admin.nilairata',compact ('datam'));
-    }
+        elseif ($kelas==2) {
+            $kel ='XI';
+        }
+        elseif ($kelas==3) {
+            $kel ='XII';
+        }
+        else{
 
+        }
+        if ($jurusan==  1) {
+            $jur ='Rekayasa Perangkat Lunak';
+        }
+        elseif ($jurusan==2) {
+            $jur ='Bisnis Konstruksi Dan Properti';
+        }
+        elseif ($jurusan==3) {
+            $jur ='Multimedia';
+        }
+        elseif ($jurusan==4) {
+            $jur ='Teknik Kendaraan Ringan dan Otomotif';
+        }
+        elseif ($jurusan==5) {
+            $jur ='Tata Boga';
+        }
+        else{
+        }
+        $kell=$kel;
+        $jurr=$jur;
+        // dd($kell,$jurr);
+        // $data= nilaiawal::where('kelas',$tes);
+        // $kat = banding::find($data);
+        // $stat = $kat->status ='terisi';
+        // $kat->update(['status' => $stat]);
+        $bln= Carbon::now()->isoFormat(' MMM ');
+        // dd($kell);
+if ($bln == ' Jan ' || $bln == ' Feb ' || $bln == ' Mar '|| $bln == ' Apr ' || $bln == ' May ' || $bln == ' Jun ') {
+    $data = DB::table('rataratas')
+    ->where('kelas',$kell)
+    ->where('jurusan',$jurr)
+    ->get();
+    // dd($data);
+}elseif ($bln == ' Jul ' || $bln == ' Aug ' || $bln == ' Sep '|| $bln == ' Oct ' || $bln == ' Nov ' || $bln == ' Dec ') {
+    $data = DB::table('semganjils')
+    ->where('kelas',$kell)
+    ->where('jurusan',$jurr)
+    ->get();
+}
+
+// $data=$data;
+// dd($data);
+    return view('admin.nilairata',compact('data'));
+
+    }
+    public function add($kumpul,$namass,$kelas,$jurusan,$jmlsi,$kel,$jur)
+    {
+        $kel=$kel;
+        $jur=$jur;
+        $datap = DB::table('rataratas')
+        ->where('kelas',$kel)
+        ->where('jurusan',$jur)
+        ->get();
+
+        for ($b=0; $b < $jmlsi; $b++){
+
+            if ($datap[$b]->kelas > $jmlsi || $datap[$b]->jurusan > $jmlsi) {
+                // dd($jmlsi);
+            // dd($datap[19]->kelas);
+            DB::table('rataratas')->insert([
+                'nama'=>$namass[0][$b],
+                'kelas'=>$kelas['kelas'],
+                'jurusan'=>$jurusan['jurusan'],
+                'n1'=>$kumpul[0][$b],
+                'n2'=>$kumpul[1][$b],
+                'n4'=>$kumpul[2][$b],
+                'n3'=>$kumpul[3][$b],
+                'n5'=>$kumpul[4][$b],
+                'n6'=>$kumpul[5][$b],
+                'n7'=>$kumpul[6][$b],
+                'n8'=>$kumpul[7][$b],
+                'n9'=>$kumpul[8][$b],
+                'n10'=>$kumpul[9][$b],
+                'n11'=>$kumpul[10][$b],
+                'n12'=>$kumpul[11][$b],
+                'n13'=>$kumpul[12][$b],
+                'n14'=>$kumpul[13][$b],
+                'n15'=>$kumpul[14][$b],
+                'n16'=>$kumpul[15][$b],
+                'n17'=>$kumpul[16][$b],
+                'n18'=>$kumpul[17][$b],
+                'n19'=>$kumpul[18][$b],
+                'n20'=>$kumpul[19][$b],
+                'n21'=>$kumpul[20][$b],
+                'n22'=>$kumpul[21][$b],
+                'n23'=>$kumpul[22][$b],
+                'n24'=>$kumpul[23][$b],
+                'n25'=>$kumpul[24][$b],
+                'kategori'=>'sekolah',
+                'bulan'=>'mei',
+
+            ]);
+        }
+
+
+
+        }
+
+        // return view('admin.nilairata',compact ('data'));
+        // $this->add($kumpul,$namass,$kelas,$jurusan,$jmlsi,$kel,$jur);
+
+
+    }
+    public function nilairatas(){
+
+    $data = DB::table('rataratas')
+
+                ->get();
+    return view('admin.nilairata',compact('data'));
+}
 
 
     public function create()

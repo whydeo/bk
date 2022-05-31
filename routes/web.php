@@ -41,3 +41,6 @@ Route::get('carikelas', [AdminController::class, 'carikelas'])->name('carikelas'
 Route::get('caribulan', [AdminController::class, 'caribulan'])->name('caribulan');
 Route::get('carijk', [AdminController::class, 'carijk'])->name('carijk');
 Route::get('nilairatas', [AdminController::class, 'nilairatas'])->name('nilairatas');
+Route::get('nilai', [AdminController::class, 'nilai'])->name('nilai');
+Route::get('carijsn', [AdminController::class, 'carijsn'])->name('carijsn');
+Route::get('cariblan', [AdminController::class, 'cariblan'])->name('cariblan');

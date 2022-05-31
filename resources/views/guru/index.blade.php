@@ -53,10 +53,7 @@
                                         </button>
                                     </td> --}}
                                     <td>
-                                        <a href="#" value="{{ url('show', ['id'=>$guru->id]) }} "
-                                            class="btn btn-xs btn-info modalMd" data-toggle="modal"
-                                            data-target="#exampleModal2"><span
-                                                class="glyphicon glyphicon-eye-open">jshd</span></a>
+              <a class="btn btn-primary" href="{{route('guru.show',$guru->id_guru)}}"> detail</a>
 
                                     </td>
                                     {{-- <a href="{{ route('show', $guru->id) }}"
@@ -101,12 +98,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <tr>
+                    {{-- @foreach ($gurus as$key->$item)
 
-                        {{-- <td>{{ $gurus->nama }}</td> --}}
-                        {{-- <td>{{ $gurus->kelas->kelas }}</td>
-                        <td>{{ $gurus->mapel->nama_mapel }}</td> --}}
+                    <tr>
+                        <td>{{ $item->nama }}</td>
+                        <td>{{ $item->kelas->kelas }}</td>
+                        <td>{{ $item->mapel->nama_mapel }}</td>
                     </tr>
+                    @endforeach --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

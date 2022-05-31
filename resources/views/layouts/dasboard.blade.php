@@ -44,9 +44,9 @@
                             {{-- ADMIN DIBAWAH --}}
                             @if(auth()->user()->level=="bk")
                             <div class="navbar-nav mr-4" >
-                                <a class="nav-link active" aria-current="page" href="{{route('guru.index')}}"><i class="bi bi-activity"></i> Guru </a>
+                                {{-- <a class="nav-link active" aria-current="page" href="{{route('guru.index')}}"><i class="bi bi-activity"></i>Edit Guru</a> --}}
                                 <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-activity"></i> Siswa</a>
-                                <a class="nav-link active" aria-current="page" href="{{route('Pembina.index')}}"><i class="bi bi-activity"></i> Pembina</a>
+                                {{-- <a class="nav-link active" aria-current="page" href="{{route('Pembina.index')}}"><i class="bi bi-activity"></i> Pembina</a> --}}
                                 <a class="nav-link active" aria-current="page" href="{{route('admin.index')}}"><i class="bi bi-activity"></i> Daftar Kasus</a>
                                 <a class="nav-link active" aria-current="page" href="{{route('nilairatas')}}"><i class="bi bi-activity"></i> Daftar Nilai</a>
 

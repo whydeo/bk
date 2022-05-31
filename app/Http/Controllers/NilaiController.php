@@ -342,21 +342,31 @@ class NilaiController extends Controller
             }
             $users = Auth()->user()->name;
             $user= auth()->user()->level;
-            $bln= Carbon::now()->isoFormat(' MMMM Y');
-            if ($user == 'guru') {
+            $kell=$inputan['kelas'];
+            $jurr=$inputan['jurusan'];
+            // dd($kell,$jurr);
+            $bln= Carbon::now()->isoFormat(' MMM ');
+            // dd($bln);
+            // if ($user == 'guru') {
                             $tes =$inputan['kelas'];
                             $t =$inputan['jurusan'];
                             $data = DB::table('bandings')
                              ->where('kelas',$tes)
                             ->where('jurusan',$t)
                             ->value('id');
+                            $datas = DB::table('bandings')
+                             ->where('id',$data)
+                            // ->where('jurusan',$t)
+                            ->value('jml_siswa');
                             $jmlsiswa=count($inputan['nama']);
                             $kat = banding::find($data);
-                            // dd($data);
+                            // dd($kat->jml_siswa);
                             $jml = $kat->banding + 1;
-                            $jmls = $kat->jml_siswa + $jmlsiswa;
-
-                            $kat->update(['banding' => $jml,'jml_siswa'=>$jmls]);
+                            if ($kat->jml_siswa <15 ) {
+                                $jmls = $kat->jml_siswa + $jmlsiswa;
+                                $kat->update(['jml_siswa' => $jmls]);
+                            }
+                            $kat->update(['banding' => $jml]);
                             for ($i=0; $i < count($inputan['nama']) ; $i++){
                                 DB::table('nilaiawals')->insert([
                                     'nama'=>$inputan['nama'][$i],
@@ -396,59 +406,575 @@ class NilaiController extends Controller
                                 ]);
 
                             }
+                            // }
+
+                            // elseif ($user == 'paspa'||'paspi' ) {
+                            //     for ($i=0; $i < count($inputan['nama']) ; $i++){
+                            //         DB::table('nilaiasramas')->insert([
+                            //             'nama'=>$inputan['nama'][$i],
+                            //             'jk'=>$inputan['jk'][$i   ],
+                            //             'kelas'=>$inputan['kelas'][$i],
+                            //             'jurusan'=>$inputan['jurusan'][$i],
+                            //             'n1'=>$inputan['n1'][$i],
+                            //             'n2'=>$inputan['n2'][$i],
+                            //             'n3'=>$inputan['n3'][$i],
+                            //             'n4'=>$inputan['n4'][$i],
+                            //             'n5'=>$inputan['n5'][$i],
+                            //             'n6'=>$inputan['n6'][$i],
+                            //             'n7'=>$inputan['n7'][$i],
+                            //             'n8'=>$inputan['n8'][$i],
+                            //             'n9'=>$inputan['n9'][$i],
+                            //             'n10'=>$inputan['n10'][$i],
+                            //             'n11'=>$inputan['n11'][$i],
+                            //             'n12'=>$inputan['n12'][$i],
+                            //             'n13'=>$inputan['n13'][$i],
+                            //             'n14'=>$inputan['n14'][$i],
+                            //             'n15'=>$inputan['n15'][$i],
+                            //             'n16'=>$inputan['n16'][$i],
+                            //             'n17'=>$inputan['n17'][$i],
+                            //             'n18'=>$inputan['n18'][$i],
+                            //             'n19'=>$inputan['n19'][$i],
+                            //             'n20'=>$inputan['n20'][$i],
+                            //             'n21'=>$inputan['n21'][$i],
+                            //             'n22'=>$inputan['n22'][$i],
+                            //             'n23'=>$inputan['n23'][$i],
+                            //             'n24'=>$inputan['n24'][$i],
+                            //             'n25'=>$inputan['n25'][$i],
+                            //             'penilai'=>$user,
+
+                            //         ]);
+                            //     }
+                            // }
+
+                            $data = DB::table('nilaiawals')
+                            ->where('kelas',$kell)
+                            ->where('jurusan',$jurr)
+                            ->get();
+
+                            $jmlsi= DB::table('bandings')
+                            ->where('kelas',$kell)
+                            ->where('jurusan', $jurr)
+                            ->value('jml_siswa');
+                            $namas=[];
+                            $kelas=[];
+                            $jurusan=[];
+                            // $jk=[];
+                            for ($w=0; $w < $jmlsi ; $w++) {
+                                $nama=$data[$w]->nama;
+                                $kelas['kelas']=$data[$w]->kelas;
+                                $jurusan['jurusan']=$data[$w]->jurusan;
+                                // $jk=$data[$w]->jk;
+                                array_push($namas,$nama);
                             }
+                            // dd($kelas);
+                            //
+                            $n1=[];
+                            $n2=[];
+                            $n3=[];
+                            $n4=[];
+                            $n5=[];
+                            $n6=[];
+                            $n7=[];
+                            $n8=[];
+                            $n9=[];
+                            $n10=[];
+                            $n11=[];
+                            $n12=[];
+                            $n13=[];
+                            $n14=[];
+                            $n15=[];
+                            $n16=[];
+                            $n17=[];
+                            $n18=[];
+                            $n19=[];
+                            $n20=[];
+                            $n21=[];
+                            $n22=[];
+                            $n23=[];
+                            $n24=[];
+                            $n25=[];
+                            for ($i=1; $i <= 25 ; $i++){
+                                $jml= DB::table('bandings')
+                                ->where('kelas',$kell)
+                                ->where('jurusan', $jurr)
+                                ->value('jml_siswa');
+                                // dd($jml);
+                                $kumpulan = 'n'.$i;
+                                for ($j=0; $j < $jml; $j++) {
 
-                            elseif ($user == 'paspa'||'paspi' ) {
-                                for ($i=0; $i < count($inputan['nama']) ; $i++){
-                                    DB::table('nilaiasramas')->insert([
-                                        'nama'=>$inputan['nama'][$i],
-                                        'jk'=>$inputan['jk'][$i   ],
-                                        'kelas'=>$inputan['kelas'][$i],
-                                        'jurusan'=>$inputan['jurusan'][$i],
-                                        'n1'=>$inputan['n1'][$i],
-                                        'n2'=>$inputan['n2'][$i],
-                                        'n3'=>$inputan['n3'][$i],
-                                        'n4'=>$inputan['n4'][$i],
-                                        'n5'=>$inputan['n5'][$i],
-                                        'n6'=>$inputan['n6'][$i],
-                                        'n7'=>$inputan['n7'][$i],
-                                        'n8'=>$inputan['n8'][$i],
-                                        'n9'=>$inputan['n9'][$i],
-                                        'n10'=>$inputan['n10'][$i],
-                                        'n11'=>$inputan['n11'][$i],
-                                        'n12'=>$inputan['n12'][$i],
-                                        'n13'=>$inputan['n13'][$i],
-                                        'n14'=>$inputan['n14'][$i],
-                                        'n15'=>$inputan['n15'][$i],
-                                        'n16'=>$inputan['n16'][$i],
-                                        'n17'=>$inputan['n17'][$i],
-                                        'n18'=>$inputan['n18'][$i],
-                                        'n19'=>$inputan['n19'][$i],
-                                        'n20'=>$inputan['n20'][$i],
-                                        'n21'=>$inputan['n21'][$i],
-                                        'n22'=>$inputan['n22'][$i],
-                                        'n23'=>$inputan['n23'][$i],
-                                        'n24'=>$inputan['n24'][$i],
-                                        'n25'=>$inputan['n25'][$i],
-                                        'penilai'=>$user,
+                                    for ($h=0; $h < count($data) ; $h++) {
+                                        $nilaike = 'n'.$i;
+                                        if ($data[$h]->nama == $data[$j]->nama  && $data[$h] == ' Jan ' || $data[$h]->bulan == ' Feb ' || $data[$h]->bulan == ' Mar '|| $data[$h]->bulan == ' Apr ' || $data[$h]->bulan == ' May ' || $data[$h]->bulan == ' Jun ') {
+                                            $rata2 = 0;
+                                            $jmlnilaii = 0;
 
-                                    ]);
+                                            $rata2 = $rata2 + $data[$h]->$nilaike;
+                                            $jmlnilaii++;
+
+                                            $rataakhir = $rata2 / $jmlnilaii;
+                                            $bln='genap';
+
+                                        }elseif($data[$h]->nama == $data[$j]->nama  && $data[$h] == ' Jul ' || $data[$h]->bulan == ' Aug ' || $data[$h]->bulan == ' Sep '|| $data[$h]->bulan == ' Oct ' || $data[$h]->bulan == ' Nov ' || $data[$h]->bulan == ' Dec ') {
+                                            $rata2 = 0;
+                                            $jmlnilaii = 0;
+
+                                            $rata2 = $rata2 + $data[$h]->$nilaike;
+                                            $jmlnilaii++;
+
+                                            $rataakhir = $rata2 / $jmlnilaii;
+                                            $bln='ganjil';
+
+                                        }
+                                    }
+                                    if ($i == 1) {
+                                        # code...
+                                        array_push($n1, $rataakhir);
+                                    }elseif ($i == 2) {
+                                        # code...
+                                        array_push($n2, $rataakhir);
+
+                                    }elseif ($i == 3) {
+                                        # code...
+                                        array_push($n3, $rataakhir);
+
+                                    }elseif ($i == 4) {
+                                        # code...
+                                        array_push($n4, $rataakhir);
+                                    }elseif ($i == 5) {
+                                        # code...
+                                        array_push($n5, $rataakhir);
+                                    }elseif ($i == 6) {
+                                        # code...
+                                        array_push($n6, $rataakhir);
+                                    }elseif ($i == 7) {
+                                        # code...
+                                        array_push($n7, $rataakhir);
+                                    }elseif ($i == 8) {
+                                        # code...
+                                        array_push($n8, $rataakhir);
+                                    }elseif ($i == 9) {
+                                        # code...
+                                        array_push($n9, $rataakhir);
+                                    }elseif ($i == 10) {
+                                        # code...
+                                        array_push($n10, $rataakhir);
+
+                                    }elseif ($i == 11) {
+                                        # code...
+                                        array_push($n11, $rataakhir);
+                                    }elseif ($i == 12) {
+                                        # code...
+                                        array_push($n12,   $rataakhir);
+                                    }elseif ($i == 13) {
+                                        # code...
+                                        array_push($n13, $rataakhir);
+                                    }elseif ($i == 13) {
+                                        # code...
+                                        array_push($n13, $rataakhir);
+                                    }elseif ($i == 14) {
+                                        # code...
+                                        array_push($n14, $rataakhir);
+                                    }elseif ($i == 15) {
+                                        # code...
+                                        array_push($n15, $rataakhir);
+                                    }elseif ($i == 16) {
+                                        # code...
+                                        array_push($n16, $rataakhir);
+                                    }elseif ($i == 17) {
+                                        # code...
+                                        array_push($n17, $rataakhir);
+                                    }elseif ($i == 18) {
+                                        # code...
+                                        array_push($n18, $rataakhir);
+                                    }elseif ($i == 19) {
+                                        # code...
+                                        array_push($n19, $rataakhir);
+                                    }elseif ($i == 20) {
+                                        # code...
+                                        array_push($n20, $rataakhir);
+                                    }elseif ($i == 21) {
+                                        # code...
+                                        array_push($n21, $rataakhir);
+                                    }elseif ($i == 22) {
+                                        # code...
+                                        array_push($n22, $rataakhir);
+                                    }elseif ($i == 23) {
+                                        # code...
+                                        array_push($n23, $rataakhir);
+                                    }elseif ($i == 24) {
+                                        # code...
+                                        array_push($n24, $rataakhir);
+                                    }elseif ($i == 25) {
+                                        # code...
+                                        array_push($n25, $rataakhir);
+                                    }
+
+
+                                    // dd($kumpulan);
+                                    // dd($jml);
                                 }
                             }
+                            $kumpul=[];
+                            // $bln=[];
+                            $namass=[];
+                            array_push($kumpul,$n1,$n2,$n3,$n4,$n5,$n6,$n7,$n8,$n9,$n10,$n11,$n12,$n13,$n14,$n15,$n16,$n17,$n18,$n19,$n20,$n21,$n22,$n23,$n24,$n25,$bln);
+                            array_push($namass,$namas);
+                                    // dd($kumpul);
+
+
+                            // 'n1'=>$kumpul['n1'][$i],
+                            // 'n2'=>$kumpul['n2'][$i],
+                            // 'n3'=>$inputan['n3'][$i],
+                            // 'n4'=>$inputan['n4'][$i],
+                            // 'n5'=>$inputan['n5'][$i],
+                            // 'n6'=>$inputan['n6'][$i],
+                            // 'n7'=>$inputan['n7'][$i],
+                            // 'n8'=>$inputan['n8'][$i],
+                            // 'n9'=>$inputan['n9'][$i],
+                            // 'n10'=>$inputan['n10'][$i],
+                            // 'n11'=>$inputan['n11'][$i],
+                            // 'n12'=>$inputan['n12'][$i],
+                            // 'n13'=>$inputan['n13'][$i],
+                            // 'n14'=>$inputan['n14'][$i],
+                            // 'n15'=>$inputan['n15'][$i],
+                            // 'n16'=>$inputan['n16'][$i],
+                            // 'n17'=>$inputan['n17'][$i],
+                            // 'n18'=>$inputan['n18'][$i],
+                            // 'n19'=>$inputan['n19'][$i],
+                            // 'n20'=>$inputan['n20'][$i],
+                            // 'n21'=>$inputan['n21'][$i],
+                            // 'n22'=>$inputan['n22'][$i],
+                            // 'n23'=>$inputan['n23'][$i],
+                            // 'n24'=>$inputan['n24'][$i],
+                            // 'n25'=>$inputan['n25'][$i],
+                            // 'penilai'=>$users,
+                            // 'bulan'=>$bln,
+
+
+                        // ]);
+
+
+                    // $data= nilaiawal::get();
+                    // dd($data);
+
+
+                    // $datas1=[];
+                    // foreach ($data as $key => $value) {
+                    //     $tes=$value->kelas;
+                    //     $t=$value->jurusan;
+                    //     $data = DB::table('bandings')
+                    //     ->where('kelas',$tes)
+                    //     ->where('jurusan',$t)
+                    //     ->value('banding');
+                    //     $ta= banding::get();
+
+                        // dd(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25);
+                        //  $datas1['Berkualitas'][$key] =;
+                        // if ($value->kelas == 'X' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK') {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     // $datas1['nama'][$key]=count($value->n1);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //     $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'X' && $value->jurusan == 'MULTIMEDIA' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'X' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'X' && $value->jurusan == 'TATABOGA' ){
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'X' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // if ($value->kelas == 'XI' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XI' && $value->jurusan == 'MULTIMEDIA' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XI' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XI' && $value->jurusan == 'TATABOGA' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XI' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // if ($value->kelas == 'XII' && $value->jurusan == 'REKAYASA PERANGKAT LUNAK' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     // $datas1['namat'][$key]=$value->n1;
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XII' && $value->jurusan == 'MULTIMEDIA' && $value->nama !== $value->nama) {
+
+                        //     // $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['namas'][$key]=$value->n1;
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //     $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XII' && $value->jurusan == 'BISNIS KONSTRUKSI DAN PROPERTI' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XII' && $value->jurusan == 'TATABOGA' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //     $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+                        // elseif ($value->kelas == 'XII' && $value->jurusan == 'TEKNIK KENDARAAN RINGAN OTOMOTIF' ) {
+
+                        //     $datas1['rata'][$key] =(($value->n1+$value->n2+$value->n3+$value->n4+$value->n5+$value->n6+$value->n7+$value->n8+$value->n9+$value->n10+$value->n11+$value->n12+$value->n13+$value->n14+$value->n15+$value->n16+$value->n17+$value->n18+$value->n19+$value->n20+$value->n21+$value->n23+$value->n24+$value->n25) / 25 /$data);
+                        //     $datas1['nama'][$key]=$value['nama'];
+                        //     $datas1['kelas'][$key]=$value['kelas'];
+                        //     $datas1['jurusan'][$key]=$value['jurusan'];
+                        //     $datas1['jk'][$key]=$value['jk'];
+                        //      $datas1['bulan'][$key]=$value['bulan'];
+                        // }
+
+
+
+
+
+                    // }
+                            // dd($datas1);
+
+
+                    // for ($i=0; $i < count($data['nama']) ; $i++){
+                    //     DB::table('nilaiasramas')->insert([
+                    //         'nama'=>$data['nama'][$i],
+                    //         'jk'=>$data['jk'][$i   ],
+                    //         'kelas'=>$data['kelas'][$i],
+                    //         'jurusan'=>$data['jurusan'][$i],
+                    //         'n1'=>$data['n1'][$i],
+                    //         'n2'=>$data['n2'][$i],
+                    //         'n3'=>$data['n3'][$i],
+                    //         'n4'=>$data['n4'][$i],
+                    //         'n5'=>$data['n5'][$i],
+                    //         'n6'=>$data['n6'][$i],
+                    //         'n7'=>$data['n7'][$i],
+                    //         'n8'=>$data['n8'][$i],
+                    //         'n9'=>$data['n9'][$i],
+                    //         'n10'=>$data['n10'][$i],
+                    //         'n11'=>$data['n11'][$i],
+                    //         'n12'=>$data['n12'][$i],
+                    //         'n13'=>$data['n13'][$i],
+                    //         'n14'=>$data['n14'][$i],
+                    //         'n15'=>$data['n15'][$i],
+                    //         'n16'=>$data['n16'][$i],
+                    //         'n17'=>$data['n17'][$i],
+                    //         'n18'=>$data['n18'][$i],
+                    //         'n19'=>$data['n19'][$i],
+                    //         'n20'=>$data['n20'][$i],
+                    //         'n21'=>$data['n21'][$i],
+                    //         'n22'=>$data['n22'][$i],
+                    //         'n23'=>$data['n23'][$i],
+                    //         'n24'=>$data['n24'][$i],
+                    //         'n25'=>$data['n25'][$i],
+
+
+                    //     ]);
+                    // }
+                    // for ($i=0; $i < count($datas1['nama']) ; $i++) {
+                    //     DB::table('rataratas')->insert([
+                    //         // dd($datas1['nama']);
+                    //         // 'id_penilai'=>$guru,
+                    //         // 'kategori'=>$lokasi,
+                    //         'nama' => $datas1['nama'][$i],
+                    //         'kelas' => $datas1['kelas'][$i],
+                    //         'jk' => $datas1['jk'][$i],
+                    //         'jurusan' => $datas1['jurusan'][$i],
+                    //         'ratarata' => $datas1['rata'][$i],
+                    //         'bulan' => $datas1['bulan'][$i],
+                    //         // 'Berhasil' => $datas1['Berhasil'][$i],
+                    //         'created_at' => date("Y-m-d H:i:s"),
+                    //         'updated_at' => date("Y-m-d H:i:s")
+                    //     ]);
+
+                    //     $datam = ratarata::get();
+                        // dd($datam);
+                    // }
+                    // $this->add($kumpul,$namass,$kelas,$jurusan,$jmlsi,$kel,$jur);
+                    // $kel=$kell;
+                    // $jur=$jurr;
+                    // $datap = DB::table('rataratas')
+                    // ->where('kelas',$kel)
+                    // ->where('jurusan',$jur)
+                    // ->get();
+                    // dd($datap);
+
+                //     $data = DB::table('bandings')
+                //     ->where('kelas',$kel)
+                //    ->where('jurusan',$jur)
+                //    ->value('id');
+
+                //    $datap = DB::table('bandings')
+                //    ->where('kelas',$kel)
+                //   ->where('jurusan',$jur)
+                //   ->value('status');
+                  $bln= Carbon::now()->isoFormat(' Y ');
+                  $thn= Carbon::now()->isoFormat(' MMM ');
+
+                //   dd($bln);
+                    for ($b=0; $b < $jmlsi; $b++){
+                        $sem=$kumpul[25];
+                        // dd($sem);
+                        if ($sem =='genap') {
+                            DB::table('rataratas')->insert([
+                                'nama'=>$namass[0][$b],
+                                'kelas'=>$kelas['kelas'],
+                                'jurusan'=>$jurusan['jurusan'],
+                                'n1'=>$kumpul[0][$b],
+                                'n2'=>$kumpul[1][$b],
+                                'n4'=>$kumpul[2][$b],
+                                'n3'=>$kumpul[3][$b],
+                                'n5'=>$kumpul[4][$b],
+                                'n6'=>$kumpul[5][$b],
+                                'n7'=>$kumpul[6][$b],
+                                'n8'=>$kumpul[7][$b],
+                                'n9'=>$kumpul[8][$b],
+                                'n10'=>$kumpul[9][$b],
+                                'n11'=>$kumpul[10][$b],
+                                'n12'=>$kumpul[11][$b],
+                                'n13'=>$kumpul[12][$b],
+                                'n14'=>$kumpul[13][$b],
+                                'n15'=>$kumpul[14][$b],
+                                'n16'=>$kumpul[15][$b],
+                                'n17'=>$kumpul[16][$b],
+                                'n18'=>$kumpul[17][$b],
+                                'n19'=>$kumpul[18][$b],
+                                'n20'=>$kumpul[19][$b],
+                                'n21'=>$kumpul[20][$b],
+                                'n22'=>$kumpul[21][$b],
+                                'n23'=>$kumpul[22][$b],
+                                'n24'=>$kumpul[23][$b],
+                                'n25'=>$kumpul[24][$b],
+                                'semester'=>$kumpul[25],
+                                'bulan'=>$thn,
+                                'tahun'=>$bln,
+
+                            ]);
+                        // dd($datap[19]->kelas);
+                    }elseif($sem == 'ganjil'){
+                        DB::table('semganjils')->insert([
+                            'nama'=>$namass[0][$b],
+                            'kelas'=>$kelas['kelas'],
+                            'jurusan'=>$jurusan['jurusan'],
+                            'n1'=>$kumpul[0][$b],
+                            'n2'=>$kumpul[1][$b],
+                            'n4'=>$kumpul[2][$b],
+                            'n3'=>$kumpul[3][$b],
+                            'n5'=>$kumpul[4][$b],
+                            'n6'=>$kumpul[5][$b],
+                            'n7'=>$kumpul[6][$b],
+                            'n8'=>$kumpul[7][$b],
+                            'n9'=>$kumpul[8][$b],
+                            'n10'=>$kumpul[9][$b],
+                            'n11'=>$kumpul[10][$b],
+                            'n12'=>$kumpul[11][$b],
+                            'n13'=>$kumpul[12][$b],
+                            'n14'=>$kumpul[13][$b],
+                            'n15'=>$kumpul[14][$b],
+                            'n16'=>$kumpul[15][$b],
+                            'n17'=>$kumpul[16][$b],
+                            'n18'=>$kumpul[17][$b],
+                            'n19'=>$kumpul[18][$b],
+                            'n20'=>$kumpul[19][$b],
+                            'n21'=>$kumpul[20][$b],
+                            'n22'=>$kumpul[21][$b],
+                            'n23'=>$kumpul[22][$b],
+                            'n24'=>$kumpul[23][$b],
+                            'n25'=>$kumpul[24][$b],
+                            'semester'=>$kumpul[25],
+                            'bulan'=>$thn,
+                            'tahun'=>$bln,
+                        ]);
+                        }
+                }
+
+
+
+
 
                         }
 
-                        // public function nilai($inputan){
-                        //     // dd($inputan);
 
-
-                        //     $nilai=nilaiawal::insert($inputan);
-                        //     //  DB::table('nilaiawals')->insert($inputan);
-                        // }
-
-    // public function rata(){
-
-    // }
     public function create()
     {
         // $rata = Karakter::select(DB::raw('AVG(Berkualitas) as Berdaya,Berbudi,Berhasil'),('id_poin'), DB::raw('SUM(Berbudi) as Berhasil')
@@ -482,10 +1008,11 @@ class NilaiController extends Controller
         $user = Auth()->user()->name;
         // dd($user);
         $month= Carbon::now()->isoFormat(' MMMM Y');
-        // dd($month);
+        // dd($request);
         for ($i=0; $i < count($request['nama']); $i++) {
             DB::table('nilairatas')->insert([
                 'nama'=>$request['nama'][$i],
+                'jk'=>$request['jk'][$i],
                 'kelas'=>$request['kelas'][$i],
                 'jurusan'=>$request['jurusan'][$i],
                 'keterangan'=>$request['keterangan'][$i],

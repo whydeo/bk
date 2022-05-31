@@ -50,7 +50,7 @@
                         @forelse ($siswas as $siswa)
                         <tr>
                             <th scope="row">{{ ++$no }}</th>
-                            <td>{{ $siswa->nama_siswa }}</td>
+                            <td><a href="{{route('Siswa.show',$siswa->id)}}" >{{ $siswa->nama_siswa }}</a></td>
                             <td>{{ $siswa->nis }}</td>
                             <td>{{ $siswa->kelas }}</td>
                             <td>{{ $siswa->jurusan }}</td>

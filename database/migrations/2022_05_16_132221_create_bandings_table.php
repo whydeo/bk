@@ -14,10 +14,11 @@ class CreateBandingsTable extends Migration
     public function up()
     {
         Schema::create('bandings', function (Blueprint $table) {
-            $table->id('id_banding');
+            $table->id('id');
             $table->string('kelas');
             $table->string('jurusan');
             $table->integer('banding')->default(0);
+            $table->integer('jml_siswa')->default(0);
             $table->timestamps();
         });
     }

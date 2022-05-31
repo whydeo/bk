@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\guru;
 use App\Models\User;
 use App\Models\mapel;
+use App\Models\kelas;
+use App\Models\jurusan;
 use DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -82,9 +84,16 @@ class GuruController extends Controller
      */
     public function show(request $request, $id)
     {
-        // dd($request);
         $gurus = guru::find($id);
-        return redirect()->route('guru.index',compact('gurus'));
+        // dd($gurus->id_mapel);
+        $mapel = mapel::where('id',$gurus->id_mapel)->get();
+        $kelas = kelas::where('id',$mapel[0]->id_kelas)->get();
+        $user = User::where('name',$gurus->nama)->get();
+        // $jurusan = kelas::where('id',$kelas[0]->id_jurusan)->get();
+        // $data=$mapel;$kelas;
+        $email=$user[0]->email;
+        // dd($email);
+        return view('guru.show',compact('gurus','kelas','email'));
     }
 
     /**

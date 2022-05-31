@@ -7,24 +7,29 @@
     <div class="row">
         <form action="{{route('carijurusan')}}" method="get">
             @csrf
-            <div class="form-group w-100 mb-3">
-                <label for="search" class="d-block mr-2">Pencarian by kelas</label>
-                <select name="search" id="">
-                   <option value="rpl">REKAYASA PERANGKAT LUNAK</option>
-                   <option value="REKAYASA PERANGKAT LUNAK">REKAYASA PERANGKAT LUNAK</option>
-                   <option value="REKAYASA PERANGKAT LUNAK">REKAYASA PERANGKAT LUNAK</option>
-                   <option value="REKAYASA PERANGKAT LUNAK">REKAYASA PERANGKAT LUNAK</option>
-                   <option value="REKAYASA PERANGKAT LUNAK">REKAYASA PERANGKAT LUNAK</option>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-primary mb-1">Cari</button> </div>
+                <select name="search" class="custom-select " id="inputGroupSelect01">
+                  <option selected>PILIH JURUSAN</option>
+                  <option value="REKAYASA PERANGKAT LUNAK">REKAYASA PERANGKAT LUNAK</option>
+                  <option value="MULTIMEDIA">MULTIMEDIA</option>
+                  <option value="BISNIS KONSTRUKSI PROPERTI">BISNIS KONSTRUKSI PROPERTI</option>
+                  <option value="TATABOGA">TATABOGA</option>
+                  <option value="TEKNIK KENDARAAN RINGAN OTOMOTIF">TEKNIK KENDARAAN RINGAN OTOMOTIF</option>
+
                 </select>
                 {{-- <input type="text" name="search" class="form-control w-75 d-inline" id="search" placeholder="Masukkan nama pegawai"> --}}
-                <button type="submit" class="btn btn-primary mb-1">Cari</button>
+                {{-- <button type="submit" class="btn btn-primary mb-1">Cari</button> --}}
+            </div>
             </div>
         </form>
-
         <form class="form" method="get" action="{{ route('carikelas') }}" role="carikleas">
             @csrf
                 @livewire('carikelas')
-                <button class="btn btn-primary" type="submit" id="button-addon2">Cari</button>
+                <button type="submit" class="btn btn-primary mb-1">Cari</button> </div>
+
             </form>
             <br>
             @if ($message = Session::get('success'))
@@ -56,15 +61,17 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <form class="form" method="get" action="{{ route('carijk') }}">
-                    <div class="form-group w-100 mb-3">
-                        <label for="search" class="d-block mr-2">Pencarian berdasarkan asrama</label>
-                        <select name="search" id="">
-                            <option value="laki laki">ASRAMA PUTRA</option>
-                            <option value="perempuan">ASRAMA PUTRI</option>
-                         </select>
-                        {{-- <input type="text" name="search" class="form-control w-75 d-inline" id="search" placeholder="Masukkan nama pegawai"> --}}
-                        <button type="submit" class="btn btn-primary mb-1">Cari</button>
-                    </div>
+                    <label for="search" class="d-block mr-2">Pencarian berdasarkan Bulan</label>
+
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-primary mb-1">Cari</button> </div>
+                        <select name="search" class="custom-select " id="inputGroupSelect01">
+                          <option selected>PILIH ASRAMA</option>
+                          <option value="LAKI LAKI">ASRAMA PUTRA</option>
+                          <option value="PEREMPUAN">ASRAMA PUTRI</option>
+
+                        </select>
                 </form>
                 @if ($message = Session::get('success'))
                 <div class="alert alert-success">

@@ -1,4 +1,12 @@
 @extends('layouts.dasboard')
 @section('content')
-<H1>HALshdbshjdLO</H1>
-      @endsection
+
+    <center>
+<H1>
+
+    selamat datang di page peniliaan sikap siswA
+    
+</H1>
+
+    </center>
+@endsection
