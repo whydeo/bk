@@ -4,7 +4,7 @@
     <center>
 <H1>
 
-    selamat datang di page peniliaan sikap siswA
+    selamat datang di page peniliaan sikap siswa
     
 </H1>
 
