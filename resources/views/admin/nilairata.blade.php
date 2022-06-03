@@ -212,7 +212,7 @@ integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxU
         </table>
 
     <br />
-    <input type="button" onclick="PrintTable();" value="Print" />
+    {{-- <input type="button" onclick="PrintTable();" value="Print" /> --}}
  @livewireScripts
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

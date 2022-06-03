@@ -16,13 +16,9 @@ class JurusanSeeder extends Seeder
         $x = Jurusan::create([
             'nama_jurusan' => 'REKAYASA PERANGKAT LUNAK',
         ]);
-
-
         $xi = Jurusan::create([
             'nama_jurusan' => 'BISNIS KONSTRUKSI DAN PROPERTI',
-
         ]);
-
         $xii = Jurusan::create([
             'nama_jurusan' => 'MULTIMEDIA',
         ]);
@@ -32,5 +28,6 @@ class JurusanSeeder extends Seeder
         $xii = Jurusan::create([
             'nama_jurusan' => 'TATABOGA',
         ]);
+
     }
 }

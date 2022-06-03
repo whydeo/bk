@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('level');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            // $table->enum('level', ['admin', 'kasir', 'manager'])->default('kasir');
             $table->rememberToken();
             $table->timestamps();
         });

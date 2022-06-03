@@ -82,6 +82,10 @@ class MapelSeeder extends Seeder
             'id_kelas' => 1,
             'nama_mapel' => 'Kimia'
         ]);
+        $mtk17 = mapel::create([
+            'id_kelas' => 1,
+            'nama_mapel' => 'Asrama'
+        ]);
         $kelas0 = mapel::create([
             'id_kelas' => 2,
             'nama_mapel' => 'Pendidikan Agama Kristen'
@@ -134,6 +138,10 @@ class MapelSeeder extends Seeder
             'id_kelas' => 2,
             'nama_mapel' => 'Produktif'
         ]);
+        $kelas12 = mapel::create([
+            'id_kelas' => 2,
+            'nama_mapel' => 'asrama'
+        ]);
         $bk1 = mapel::create([
             'id_kelas' => 3,
             'nama_mapel' => 'Produktif'
@@ -181,6 +189,10 @@ class MapelSeeder extends Seeder
         $bk12 = mapel::create([
             'id_kelas' => 3,
             'nama_mapel' => 'Bimbingan Konseling'
+        ]);
+        $bk12 = mapel::create([
+            'id_kelas' => 3,
+            'nama_mapel' => 'asrama'
         ]);
     }
 }

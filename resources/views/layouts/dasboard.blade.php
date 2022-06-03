@@ -39,16 +39,16 @@
                     <!-- Left Side Of Navbar -->
 
                     <ul class="navbar-nav mr-auto">
-                        <a class="navbar-brand"><i class="bi bi-shop"></i> WebBK</a>
+                        <a class="navbar-brand"><i class="bi bi-house-heart-fill"></i> WebBK</a>
 
                             {{-- ADMIN DIBAWAH --}}
                             @if(auth()->user()->level=="bk")
                             <div class="navbar-nav mr-4" >
                                 {{-- <a class="nav-link active" aria-current="page" href="{{route('guru.index')}}"><i class="bi bi-activity"></i>Edit Guru</a> --}}
-                                <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-activity"></i> Siswa</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('Siswa.index')}}"><i class="bi bi-people-fill"></i> Siswa</a>
                                 {{-- <a class="nav-link active" aria-current="page" href="{{route('Pembina.index')}}"><i class="bi bi-activity"></i> Pembina</a> --}}
-                                <a class="nav-link active" aria-current="page" href="{{route('admin.index')}}"><i class="bi bi-activity"></i> Daftar Kasus</a>
-                                <a class="nav-link active" aria-current="page" href="{{route('nilairatas')}}"><i class="bi bi-activity"></i> Daftar Nilai</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('admin.index')}}"><i class="bi bi-book-half"></i></i> Daftar Kasus</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('nilairatas')}}"><i class="bi bi-book"></i> Daftar Nilai</a>
 
                             </div>
                             @elseif(auth()->user()->level=="guru"||"paspa"||"paspi")
